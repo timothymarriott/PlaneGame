@@ -6,6 +6,6 @@ def Start():
     return
 
 def Update():
-    if Input.GetKey(pg.K_a):
+    if Input.GetKeyDown(pg.K_a):
         print("tims got big massive")
     return
