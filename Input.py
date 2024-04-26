@@ -20,5 +20,5 @@ class Input:
             self._downKeys.remove(events.dict["key"])
        
     @staticmethod
-    def GetKeyDown(key) -> bool:
+    def GetKey(key) -> bool:
         return key in Input._downKeys
