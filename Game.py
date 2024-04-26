@@ -7,5 +7,5 @@ def Start():
 
 def Update():
     if Input.GetKey(pg.K_a):
-        print("Balls");
+        print("Balls")
     return
