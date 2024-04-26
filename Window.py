@@ -4,6 +4,8 @@ import pygame as pg
 from Input import *
 from Body import *
 
+from Game import *
+
 class Window:
 
     _display = None
@@ -13,8 +15,6 @@ class Window:
     _title = ""
 
     _input = None
-
-    _player = None
 
     def __init__(self, title, width, height):
         self._title = title
@@ -34,7 +34,8 @@ class Window:
 
         time = 0;
 
-        self._player = Body(self, (0, 0))
+
+        Start()
 
         while not closed:
 
@@ -45,6 +46,7 @@ class Window:
 
             self._display.fill((0, 0, 0))
             
+            Update()
         
             pg.display.update()
 
