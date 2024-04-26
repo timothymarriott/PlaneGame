@@ -47,6 +47,8 @@ class Window:
             self._display.fill((0, 0, 0))
             
             Update()
+
+            self._input._newdownKeys.clear()
         
             pg.display.update()
 
