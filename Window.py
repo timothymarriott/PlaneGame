@@ -11,17 +11,28 @@ class Window:
     _display = None
 
     _width = 0
+    _actualWidth = 223
     _height = 1
+    _actualHeight = 293
     _title = ""
 
     _input = None
 
+    _screen = None
+
+    _game: Game = None
+
     def __init__(self, title, width, height):
+        global WINDOW
+        WINDOW = self
         self._title = title
         self._width = width
         self._height = height
         self._input = Input(self)
+        
         pass
+
+    
 
     def Create(self):
         pg.init()
@@ -32,10 +43,14 @@ class Window:
 
         closed = False
 
-        time = 0;
+        time = 0
+
+        self._screen = pg.surface.Surface((self._actualWidth, self._actualHeight))
+
+        self._game = Game()
 
 
-        Start()
+        self._game.Start()
 
         while not closed:
 
@@ -46,7 +61,11 @@ class Window:
 
             self._display.fill((0, 0, 0))
             
-            Update()
+            self._game.Update(self._screen, clock.get_time()/1000, time)
+
+            screen = pg.transform.scale(self._screen, (self._width, self._height))
+
+            self._display.blit(screen, (0, 0))
 
             self._input._newdownKeys.clear()
         
@@ -58,3 +77,7 @@ class Window:
 
         pg.quit()
         quit()
+
+@staticmethod
+def GET() -> Window:
+    return WINDOW
