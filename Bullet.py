@@ -20,7 +20,7 @@ class Bullet:
         if self.posY < 0:
             Window.WINDOW._game._bullets.remove(self)
 
-        self.posY -= deltaTime * 240
+        self.posY -= deltaTime * 240 * 2
 
         DrawSprite(screen, "bullet", self.posX-1, self.posY)
         print("Drawing Bullet at",self.posX-1, self.posY)

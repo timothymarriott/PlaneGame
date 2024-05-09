@@ -16,6 +16,10 @@ class Game:
 
     _player: Player = None
 
+    _cooldown: float = 0
+    _shotcount: int = 0
+
+
     def __init__(self) -> None:
         global GAME
         GAME = self
@@ -44,7 +48,15 @@ class Game:
             self._explosions.append(Explosion(mousePos[1] / 2, mousePos[0] / 2))
 
         if Input.GetKeyDown(pg.K_SPACE):
-            self._bullets.append(Bullet(self._player.posX, self._player.posY))
+            if self._cooldown <= 0:
+                if self._shotcount >= 3:
+                    self._cooldown = 0.2
+                    self._shotcount = 0
+                self._shotcount += 1
+                self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
+                self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
+
+        self._cooldown -= deltaTime
 
         for explosion in self._explosions:
             explosion: Explosion

@@ -30,8 +30,8 @@ class Player:
 
         if (self.posX < 40):
             self.posX = 40
-        if (self.posY < 40):
-            self.posY = 40
+        if (self.posY < 100):
+            self.posY = 100
 
         if (self.posY > Window.WINDOW._actualHeight - 40):
             self.posY = Window.WINDOW._actualHeight - 40
