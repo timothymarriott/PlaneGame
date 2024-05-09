@@ -4,6 +4,7 @@ from SpriteRegistry import *
 from Background import Background
 from Explosion import Explosion
 from Player import Player
+from Bullet import Bullet
 
 
 
@@ -11,6 +12,7 @@ class Game:
 
     _background: Background = None
     _explosions = []
+    _bullets = []
 
     _player: Player = None
 
@@ -29,6 +31,7 @@ class Game:
         RegisterSprite("Explosion/3", "Explosion/frame4.png")
         RegisterSprite("Explosion/4", "Explosion/frame5.png")
         RegisterSprite("Explosion/5", "Explosion/frame6.png")
+        RegisterSprite("bullet", "Bullet.png")
         pass
 
     def Update(self, screen: pg.surface.Surface, deltaTime: float, time: float):
@@ -40,6 +43,9 @@ class Game:
         if Input.GetKeyDown(pg.K_e):
             self._explosions.append(Explosion(mousePos[1] / 2, mousePos[0] / 2))
 
+        if Input.GetKeyDown(pg.K_SPACE):
+            self._bullets.append(Bullet(self._player.posX, self._player.posY))
+
         for explosion in self._explosions:
             explosion: Explosion
             if explosion.frame > 4:
@@ -48,6 +54,11 @@ class Game:
             else:
                 explosion.draw(screen, deltaTime, time)
                 print("Drawing Explosion")
+
+        for bullet in self._bullets:
+            bullet: Bullet
+            bullet.draw(screen, deltaTime, time)
+            
 
         self._player.draw(screen, deltaTime, time)
         
