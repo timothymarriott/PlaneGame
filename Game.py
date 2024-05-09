@@ -32,9 +32,7 @@ class Game:
         pass
 
     def Update(self, screen: pg.surface.Surface, deltaTime: float, time: float):
-        if Input.GetKey(pg.K_a):
-            print("tims got big massive")
-
+        
         self._background.draw(screen, deltaTime, time)
 
         mousePos = pg.mouse.get_pos()
