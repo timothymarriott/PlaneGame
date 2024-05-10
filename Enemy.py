@@ -15,8 +15,8 @@ class Enemy:
 
     def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
 
-        #move sprite here.
+        self.posY += deltaTime * 100 * 2
 
-        DrawSprite(screen, "bullet", self.posX-1, self.posY)
+        DrawSprite(screen, "defaultEnemy", self.posX-1, self.posY)
 
         pass

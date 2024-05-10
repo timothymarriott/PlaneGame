@@ -37,6 +37,8 @@ class Game:
         RegisterSprite("Explosion/4", "Explosion/frame5.png")
         RegisterSprite("Explosion/5", "Explosion/frame6.png")
         RegisterSprite("bullet", "Bullet.png")
+        RegisterSprite("defaultEnemy", "small_grey_plane.png")
+        self._enemies.append(Enemy(50, 0))
         pass
 
     def Update(self, screen: pg.surface.Surface, deltaTime: float, time: float):
@@ -72,9 +74,9 @@ class Game:
             bullet: Bullet
             bullet.draw(screen, deltaTime, time)
             
-        for enemy in self._bullets:
-            bullet: Bullet
-            bullet.draw(screen, deltaTime, time)
+        for enemy in self._enemies:
+            enemy: Enemy
+            enemy.draw(screen, deltaTime, time)
             
 
         self._player.draw(screen, deltaTime, time)
