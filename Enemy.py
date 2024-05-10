@@ -15,7 +15,7 @@ class Enemy:
 
     def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
 
-        self.posY += deltaTime * 100 * 2
+        self.posY += deltaTime * 40
 
         DrawSprite(screen, "defaultEnemy", self.posX-1, self.posY)
 

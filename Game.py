@@ -37,7 +37,7 @@ class Game:
         RegisterSprite("Explosion/4", "Explosion/frame5.png")
         RegisterSprite("Explosion/5", "Explosion/frame6.png")
         RegisterSprite("bullet", "Bullet.png")
-        RegisterSprite("defaultEnemy", "small_grey_plane.png")
+        RegisterSprite("defaultEnemy", "smallGreenPlane.png")
         self._enemies.append(Enemy(50, 0))
         pass
 
