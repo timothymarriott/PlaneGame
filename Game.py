@@ -6,6 +6,7 @@ from Explosion import Explosion
 from Player import Player
 from Bullet import Bullet
 from Enemy import Enemy
+from random import random as rand
 
 
 class Game:
@@ -38,7 +39,6 @@ class Game:
         RegisterSprite("Explosion/5", "Explosion/frame6.png")
         RegisterSprite("bullet", "Bullet.png")
         RegisterSprite("defaultEnemy", "smallGreenPlane.png")
-        self._enemies.append(Enemy(50, 0))
         pass
 
     def Update(self, screen: pg.surface.Surface, deltaTime: float, time: float):
@@ -49,6 +49,10 @@ class Game:
 
         if Input.GetKeyDown(pg.K_e):
             self._explosions.append(Explosion(mousePos[1] / 2, mousePos[0] / 2))
+
+        if Input.GetKeyDown(pg.K_f):
+            
+            self._enemies.append(Enemy(rand() * 100, 0))
 
         if Input.GetKeyDown(pg.K_SPACE):
             if self._cooldown <= 0:
@@ -72,6 +76,16 @@ class Game:
 
         for bullet in self._bullets:
             bullet: Bullet
+
+            for enemy in self._enemies:
+                enemy: Enemy
+                if abs(enemy.posX - bullet.posX) < 10 and abs(bullet.posX - enemy.posX) < 10:
+                    if abs(enemy.posY - bullet.posY) < 10 and abs(bullet.posY - enemy.posY) < 10:
+                        self._explosions.append(Explosion(enemy.posX, enemy.posY))
+                        self._enemies.remove(enemy)
+                        self._bullets.remove(bullet)
+
+
             bullet.draw(screen, deltaTime, time)
             
         for enemy in self._enemies:
