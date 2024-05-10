@@ -5,7 +5,7 @@ from Background import Background
 from Explosion import Explosion
 from Player import Player
 from Bullet import Bullet
-
+from Enemy import Enemy
 
 
 class Game:
@@ -13,6 +13,7 @@ class Game:
     _background: Background = None
     _explosions = []
     _bullets = []
+    _enemies = []
 
     _player: Player = None
 
@@ -68,6 +69,10 @@ class Game:
                 print("Drawing Explosion")
 
         for bullet in self._bullets:
+            bullet: Bullet
+            bullet.draw(screen, deltaTime, time)
+            
+        for enemy in self._bullets:
             bullet: Bullet
             bullet.draw(screen, deltaTime, time)
             

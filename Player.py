@@ -28,16 +28,16 @@ class Player:
             self.posY += self._speed * deltaTime
             
 
-        if (self.posX < 40):
-            self.posX = 40
+        if (self.posX < 13):
+            self.posX = 13
         if (self.posY < 100):
             self.posY = 100
 
         if (self.posY > Window.WINDOW._actualHeight - 40):
             self.posY = Window.WINDOW._actualHeight - 40
 
-        if (self.posX > Window.WINDOW._actualWidth - 40):
-            self.posX = Window.WINDOW._actualWidth - 40
+        if (self.posX > Window.WINDOW._actualWidth - 13):
+            self.posX = Window.WINDOW._actualWidth - 13
 
         DrawSprite(screen, self.PlaneType, self.posX-LoadSprite(self.PlaneType).get_width()/2, self.posY-LoadSprite(self.PlaneType).get_height()/2)
         pass

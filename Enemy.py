@@ -4,8 +4,7 @@ from SpriteRegistry import *
 import Window
 
 
-class Bullet:
-
+class Enemy:
     posX = 0
     posY = 0
 
@@ -15,13 +14,9 @@ class Bullet:
         pass
 
     def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
-        
-        if self.posY < 0 and self in Window.WINDOW._game._bullets:
-            Window.WINDOW._game._bullets.remove(self)
 
-        self.posY -= deltaTime * 240 * 2
+        #move sprite here.
 
         DrawSprite(screen, "bullet", self.posX-1, self.posY)
-        print("Drawing Bullet at",self.posX-1, self.posY)
 
         pass
