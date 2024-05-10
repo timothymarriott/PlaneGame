@@ -10,7 +10,7 @@ class Player:
 
     PlaneType = "green"
 
-    _speed = 75
+    _speed = 130
 
     def __init__(self) -> None:
         RegisterSprite(self.PlaneType, "Planes/" + self.PlaneType + ".png")
