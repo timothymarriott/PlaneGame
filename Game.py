@@ -47,13 +47,10 @@ class Game:
         RegisterSprite("defaultEnemy", "smallGreenPlane.png")
         pass
 
-    def Update(self, screen: pg.surface.Surface, deltaTime: float, time: float):
+    def Update(self, deltaTime: float, time: float):
         
-        self._menu.Draw()
 
-        return
-
-        self._background.draw(screen, deltaTime, time)
+        self._background.draw(deltaTime, time)
 
         mousePos = pg.mouse.get_pos()
 
@@ -81,7 +78,7 @@ class Game:
                 self._explosions.remove(explosion)
                 print("Killed Explosion")
             else:
-                explosion.draw(screen, deltaTime, time)
+                explosion.draw(deltaTime, time)
                 print("Drawing Explosion")
 
         for bullet in self._bullets:
@@ -98,19 +95,19 @@ class Game:
                         self._bullets.remove(bullet)
 
 
-            bullet.draw(screen, deltaTime, time)
+            bullet.draw(deltaTime, time)
             
 
         for enemyBullet in self._enemyBullets:
             enemyBullet : EnemyBullet
-            enemyBullet.draw(screen, deltaTime, time)
+            enemyBullet.draw( deltaTime, time)
 
         for enemy in self._enemies:
             enemy: Enemy
-            enemy.draw(screen, deltaTime, time)
+            enemy.draw(deltaTime, time)
             
 
-        self._player.draw(screen, deltaTime, time)
+        self._player.draw( deltaTime, time)
         
         return
     

@@ -12,8 +12,8 @@ class Background:
         RegisterSprite("terrain_main", "terrain_main.png")
         pass
 
-    def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
+    def draw(self, deltaTime: float, time: float):
         self.posY += self._speed * deltaTime
-        DrawSprite(screen, "terrain_main", 0, self.posY % LoadSprite("terrain_main").get_height())
-        DrawSprite(screen, "terrain_main", 0, self.posY % LoadSprite("terrain_main").get_height() - LoadSprite("terrain_main").get_height())
+        DrawSprite("terrain_main", 0, self.posY % LoadSprite("terrain_main").get_height())
+        DrawSprite("terrain_main", 0, self.posY % LoadSprite("terrain_main").get_height() - LoadSprite("terrain_main").get_height())
         pass

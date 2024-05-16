@@ -19,7 +19,7 @@ class Explosion:
         self.posY = y
         pass
 
-    def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
+    def draw(self, deltaTime: float, time: float):
         
         self.frameTimer += deltaTime
 
@@ -27,7 +27,7 @@ class Explosion:
             self.frameTimer = 0
             self.frame += 1
 
-        DrawSprite(screen, "Explosion/" + str(self.frame), self.posX, self.posY)
+        DrawSprite( "Explosion/" + str(self.frame), self.posX, self.posY)
         print("Drawing explosion at",self.posX, self.posY)
 
         pass

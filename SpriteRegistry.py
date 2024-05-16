@@ -16,5 +16,5 @@ def LoadSprite(id) -> pg.Surface:
 
 def DrawSprite(id: str, x: int, y: int):
     
-    WINDOW._screen.blit(LoadSprite(id), (x, y))
+    Window.WINDOW._screen.blit(LoadSprite(id), (x, y))
     

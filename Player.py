@@ -16,7 +16,7 @@ class Player:
         RegisterSprite(self.PlaneType, "Planes/" + self.PlaneType + ".png")
         pass
 
-    def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
+    def draw(self, deltaTime: float, time: float):
         if Input.GetKey(pg.K_a):
             self.posX -= self._speed * deltaTime
         if Input.GetKey(pg.K_d):
@@ -39,5 +39,5 @@ class Player:
         if (self.posX > Window.WINDOW._actualWidth - 13):
             self.posX = Window.WINDOW._actualWidth - 13
 
-        DrawSprite(screen, self.PlaneType, self.posX-LoadSprite(self.PlaneType).get_width()/2, self.posY-LoadSprite(self.PlaneType).get_height()/2)
+        DrawSprite(self.PlaneType, self.posX-LoadSprite(self.PlaneType).get_width()/2, self.posY-LoadSprite(self.PlaneType).get_height()/2)
         pass

@@ -18,11 +18,11 @@ class Enemy:
         self.posY = y
         pass
 
-    def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
+    def draw(self, deltaTime: float, time: float):
 
         self.posY += deltaTime * 60
 
-        DrawSprite(screen, "defaultEnemy", self.posX, self.posY)
+        DrawSprite("defaultEnemy", self.posX, self.posY)
 
         self.distanceToPlayerX = abs(Window.WINDOW._game._player.posX - self.posX)
         self.distanceToPlayerY = abs(Window.WINDOW._game._player.posY - self.posY)

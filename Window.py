@@ -61,7 +61,7 @@ class Window:
 
             self._display.fill((0, 0, 0))
             
-            self._game.Update(self._screen, clock.get_time()/1000, time)
+            self._game.Update(clock.get_time()/1000, time)
 
             screen = pg.transform.scale(self._screen, (self._width, self._height))
 

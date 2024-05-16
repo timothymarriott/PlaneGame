@@ -14,14 +14,14 @@ class Bullet:
         self.posY = y
         pass
 
-    def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
+    def draw(self, deltaTime: float, time: float):
         
         if self.posY < 0 and self in Window.WINDOW._game._bullets:
             Window.WINDOW._game._bullets.remove(self)
 
         self.posY -= deltaTime * 240 * 2
 
-        DrawSprite(screen, "bullet", self.posX-1, self.posY)
+        DrawSprite("bullet", self.posX-1, self.posY)
         print("Drawing Bullet at",self.posX-1, self.posY)
 
         pass
