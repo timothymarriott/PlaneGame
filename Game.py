@@ -25,7 +25,7 @@ class Game:
 
     _menu: Menu
 
-    _SkipMenu: bool = True
+    _SkipMenu: bool = False
     
 
     def __init__(self) -> None:
