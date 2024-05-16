@@ -6,6 +6,7 @@ from Explosion import Explosion
 from Player import Player
 from Bullet import Bullet
 from Enemy import Enemy
+from EnemyBullet import EnemyBullet
 from random import random as rand
 
 
@@ -15,6 +16,7 @@ class Game:
     _explosions = []
     _bullets = []
     _enemies = []
+    _enemyBullets = []
 
     _player: Player = None
 
@@ -77,10 +79,12 @@ class Game:
         for bullet in self._bullets:
             bullet: Bullet
 
+
             for enemy in self._enemies:
                 enemy: Enemy
-                if abs(enemy.posX - bullet.posX) < 10 and abs(bullet.posX - enemy.posX) < 10:
-                    if abs(enemy.posY - bullet.posY) < 10 and abs(bullet.posY - enemy.posY) < 10:
+                colSize = 18
+                if abs(enemy.posX + colSize / 1.25 - bullet.posX) < colSize and abs(bullet.posX - enemy.posX) < colSize:
+                    if abs(enemy.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - enemy.posY) < colSize:
                         self._explosions.append(Explosion(enemy.posX, enemy.posY))
                         self._enemies.remove(enemy)
                         self._bullets.remove(bullet)
@@ -88,6 +92,11 @@ class Game:
 
             bullet.draw(screen, deltaTime, time)
             
+
+        for enemyBullet in self._enemyBullets:
+            enemyBullet : EnemyBullet
+            enemyBullet.draw(screen, deltaTime, time)
+
         for enemy in self._enemies:
             enemy: Enemy
             enemy.draw(screen, deltaTime, time)
