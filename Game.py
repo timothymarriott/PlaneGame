@@ -25,6 +25,7 @@ class Game:
 
     _menu: Menu
 
+    _SkipMenu: bool = True
     
 
     def __init__(self) -> None:
@@ -37,6 +38,7 @@ class Game:
         self._background = Background()
         self._player = Player()
         self._menu = Menu()
+        self._menu.Start()
         RegisterSprite("Explosion/0", "Explosion/frame1.png")
         RegisterSprite("Explosion/1", "Explosion/frame2.png")
         RegisterSprite("Explosion/2", "Explosion/frame3.png")
@@ -49,7 +51,9 @@ class Game:
 
     def Update(self, deltaTime: float, time: float):
         
-
+        if not self._SkipMenu:
+            self._menu.Draw()
+            return
         self._background.draw(deltaTime, time)
 
         mousePos = pg.mouse.get_pos()
