@@ -22,6 +22,8 @@ class Window:
 
     _game: Game = None
 
+    clock: pg.time.Clock = None
+
     def __init__(self, title, width, height):
         global WINDOW
         WINDOW = self
@@ -39,7 +41,7 @@ class Window:
         self._display = pg.display.set_mode((self._width, self._height))
         pg.display.set_caption(self._title)
 
-        clock = pg.time.Clock()
+        self.clock = pg.time.Clock()
 
         closed = False
 
@@ -61,7 +63,9 @@ class Window:
 
             self._display.fill((0, 0, 0))
             
-            self._game.Update(clock.get_time()/1000, time)
+            self._screen.fill((0, 0, 0))
+
+            self._game.Update(self.clock.get_time()/1000, time)
 
             screen = pg.transform.scale(self._screen, (self._width, self._height))
 
@@ -71,13 +75,19 @@ class Window:
         
             pg.display.update()
 
-            time = time + clock.get_time()
+            time = time + self.clock.get_time()
 
-            clock.tick(60)
+            self.clock.tick(60)
 
         pg.quit()
         quit()
 
+    
+
 @staticmethod
 def GET() -> Window:
     return WINDOW
+
+@staticmethod
+def DeltaTime() -> float:
+    return WINDOW.clock.get_time()/1000
