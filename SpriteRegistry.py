@@ -1,6 +1,8 @@
 
 import pygame as pg
 
+from Window import WINDOW
+
 spriteRegistry = {}
 
 def RegisterSprite(id, file):
@@ -12,6 +14,7 @@ def LoadSprite(id) -> pg.Surface:
         return
     return spriteRegistry[id]
 
-def DrawSprite(screen: pg.surface.Surface, id: str, x: int, y: int):
-    screen.blit(LoadSprite(id), (x, y))
+def DrawSprite(id: str, x: int, y: int):
+    
+    WINDOW._screen.blit(LoadSprite(id), (x, y))
     
