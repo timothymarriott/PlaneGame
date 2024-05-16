@@ -8,6 +8,8 @@ class Player:
     posX = 0
     posY = 0
 
+    doRender = True
+
     PlaneType = "green"
 
     _speed = 130
@@ -17,27 +19,28 @@ class Player:
         pass
 
     def draw(self, deltaTime: float, time: float):
-        if Input.GetKey(pg.K_a):
-            self.posX -= self._speed * deltaTime
-        if Input.GetKey(pg.K_d):
-            self.posX += self._speed * deltaTime
-            
-        if Input.GetKey(pg.K_w):
-            self.posY -= self._speed * deltaTime
-        if Input.GetKey(pg.K_s):
-            self.posY += self._speed * deltaTime
-            
+        if self.doRender == True:
+            if Input.GetKey(pg.K_a):
+                self.posX -= self._speed * deltaTime
+            if Input.GetKey(pg.K_d):
+                self.posX += self._speed * deltaTime
+                
+            if Input.GetKey(pg.K_w):
+                self.posY -= self._speed * deltaTime
+            if Input.GetKey(pg.K_s):
+                self.posY += self._speed * deltaTime
+                
 
-        if (self.posX < 13):
-            self.posX = 13
-        if (self.posY < 100):
-            self.posY = 100
+            if (self.posX < 13):
+                self.posX = 13
+            if (self.posY < 100):
+                self.posY = 100
 
-        if (self.posY > Window.WINDOW._actualHeight - 40):
-            self.posY = Window.WINDOW._actualHeight - 40
+            if (self.posY > Window.WINDOW._actualHeight - 40):
+                self.posY = Window.WINDOW._actualHeight - 40
 
-        if (self.posX > Window.WINDOW._actualWidth - 13):
-            self.posX = Window.WINDOW._actualWidth - 13
+            if (self.posX > Window.WINDOW._actualWidth - 13):
+                self.posX = Window.WINDOW._actualWidth - 13
 
-        DrawSprite(self.PlaneType, self.posX-LoadSprite(self.PlaneType).get_width()/2, self.posY-LoadSprite(self.PlaneType).get_height()/2)
-        pass
+            DrawSprite(self.PlaneType, self.posX-LoadSprite(self.PlaneType).get_width()/2, self.posY-LoadSprite(self.PlaneType).get_height()/2)
+            pass

@@ -14,14 +14,13 @@ class EnemyBullet:
         self.posY = y
         pass
 
-    def draw(self, screen: pg.surface.Surface, deltaTime: float, time: float):
+    def draw(self, deltaTime: float, time: float):
         
-        if self.posY < 0 and self in Window.WINDOW._game._enemyBullets:
+        if self.posY > Window.WINDOW._actualHeight and self in Window.WINDOW._game._enemyBullets:
             Window.WINDOW._game._enemyBullets.remove(self)
 
-        self.posY += deltaTime * 240 * 2
+        self.posY += deltaTime * 240
 
-        DrawSprite(screen, "bullet", self.posX-1, self.posY)
-        print("Drawing Enemy Bullet at",self.posX-1, self.posY)
+        DrawSprite("bullet", self.posX + 7, self.posY)
 
         pass
