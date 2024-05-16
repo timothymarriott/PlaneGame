@@ -26,7 +26,7 @@ class Game:
 
     _menu: Menu
 
-    _SkipMenu: bool = False
+    _SkipMenu: bool = True
     
 
     def __init__(self) -> None:
@@ -65,21 +65,19 @@ class Game:
 
         mousePos = pg.mouse.get_pos()
 
-        if Input.GetKeyDown(pg.K_e):
-            self._explosions.append(Explosion(mousePos[1] / 2, mousePos[0] / 2))
-
         if Input.GetKeyDown(pg.K_f):
             
             self._enemies.append(Enemy(rand() * 200, 0))
 
         if Input.GetKeyDown(pg.K_SPACE):
-            if self._cooldown <= 0:
-                if self._shotcount >= 3:
-                    self._cooldown = 0.2
-                    self._shotcount = 0
-                self._shotcount += 1
-                self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
-                self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
+            if self._player.doRender == True:
+                if self._cooldown <= 0:
+                    if self._shotcount >= 3:
+                        self._cooldown = 0.2
+                        self._shotcount = 0
+                    self._shotcount += 1
+                    self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
+                    self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
 
         self._cooldown -= deltaTime
 
