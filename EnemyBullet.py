@@ -8,6 +8,7 @@ class EnemyBullet:
 
     posX = 0
     posY = 0
+    rot = 0
 
     def __init__(self, x: int, y: int) -> None:
         self.posX = x
@@ -20,6 +21,7 @@ class EnemyBullet:
             Window.WINDOW._game._enemyBullets.remove(self)
 
         self.posY += deltaTime * 240
+        self.posX += self.rot / 20
 
         DrawSprite("bullet", self.posX + 7, self.posY)
 

@@ -33,8 +33,21 @@ class Enemy:
         if self.distanceToPlayer < 100:
             if self.posY < Window.WINDOW._game._player.posY:
                 if Window.WINDOW._game._player.doRender == True:
-                    if self.shootTimer > 1:
-                        Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
-                        self.shootTimer = 0
+                    if self.distanceToPlayerX < 15:
+                        if self.shootTimer > 1:
+                            Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
+                            self.shootTimer = 0
+                    if Window.WINDOW._game._player.posX - self.posX < -15:
+                        if self.shootTimer > 1:
+                            Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
+                            enemyB = Window.WINDOW._game._enemyBullets[len(Window.WINDOW._game._enemyBullets) - 1]
+                            enemyB.rot = -45
+                            self.shootTimer = 0
+                    if self.distanceToPlayerX > 15:
+                        if self.shootTimer > 1:
+                            Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
+                            enemyB = Window.WINDOW._game._enemyBullets[len(Window.WINDOW._game._enemyBullets) - 1]
+                            enemyB.rot = 45
+                            self.shootTimer = 0
         
         pass
