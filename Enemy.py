@@ -28,7 +28,7 @@ class Enemy:
         self.distanceToPlayerY = abs(Window.WINDOW._game._player.posY - self.posY)
         self.distanceToPlayer = sqrt(self.distanceToPlayerX * self.distanceToPlayerX + self.distanceToPlayerY * self.distanceToPlayerY)
 
-        if self.distanceToPlayer < 10:
+        if self.distanceToPlayer < 100:
             Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
         
         pass
