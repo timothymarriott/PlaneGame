@@ -9,6 +9,7 @@ from Enemy import Enemy
 from EnemyBullet import EnemyBullet
 from random import random as rand
 from Menu import Menu
+from Text import *
 
 class Game:
 
@@ -47,6 +48,7 @@ class Game:
         RegisterSprite("Explosion/5", "Explosion/frame6.png")
         RegisterSprite("bullet", "Bullet.png")
         RegisterSprite("defaultEnemy", "smallGreenPlane.png")
+        LoadChars()
         pass
 
     def Update(self, deltaTime: float, time: float):
@@ -54,6 +56,11 @@ class Game:
         if not self._SkipMenu:
             self._menu.Draw()
             return
+        
+        if Input.GetKeyDown(pg.K_ESCAPE):
+            self._menu.Reset()
+            self._SkipMenu = False
+
         self._background.draw(deltaTime, time)
 
         mousePos = pg.mouse.get_pos()
@@ -106,6 +113,8 @@ class Game:
             colSize = 22
             if abs(self._player.posX - enemyBullet.posX) < colSize and abs(enemyBullet.posX + colSize / 1.25 - self._player.posX) < colSize:
                 if abs(self._player.posY - enemyBullet.posY) < colSize and abs(enemyBullet.posY + colSize / 1.25 - self._player.posY) < colSize:
+                    if not self._player.doRender:
+                        break
                     print("player died :sob:")
                     self._explosions.append(Explosion(self._player.posX - 10, self._player.posY - 5))
                     self._enemyBullets.remove(enemyBullet)
