@@ -41,6 +41,7 @@ class Enemy:
                         if self.shootTimer > 1:
                             Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
                             enemyB = Window.WINDOW._game._enemyBullets[len(Window.WINDOW._game._enemyBullets) - 1]
+                            enemyB.speed /= 2
                             enemyB.rot = -45
                             self.shootTimer = 0
                     if self.distanceToPlayerX > 15:
@@ -48,6 +49,7 @@ class Enemy:
                             Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
                             enemyB = Window.WINDOW._game._enemyBullets[len(Window.WINDOW._game._enemyBullets) - 1]
                             enemyB.rot = 45
+                            enemyB.speed /= 2
                             self.shootTimer = 0
         
         pass
