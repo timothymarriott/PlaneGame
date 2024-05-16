@@ -27,7 +27,7 @@ class Explosion:
             self.frameTimer = 0
             self.frame += 1
 
-        DrawSprite(screen, "Explosion/" + str(self.frame), self.posY, self.posX)
+        DrawSprite(screen, "Explosion/" + str(self.frame), self.posX, self.posY)
         print("Drawing explosion at",self.posX, self.posY)
 
         pass

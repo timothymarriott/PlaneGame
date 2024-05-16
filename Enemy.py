@@ -17,6 +17,6 @@ class Enemy:
 
         self.posY += deltaTime * 60
 
-        DrawSprite(screen, "defaultEnemy", self.posX-1, self.posY)
+        DrawSprite(screen, "defaultEnemy", self.posX, self.posY)
 
         pass
