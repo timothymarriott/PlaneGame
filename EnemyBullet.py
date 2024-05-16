@@ -19,7 +19,7 @@ class EnemyBullet:
         if self.posY > Window.WINDOW._actualHeight and self in Window.WINDOW._game._enemyBullets:
             Window.WINDOW._game._enemyBullets.remove(self)
 
-        self.posY += deltaTime * 240 * 2
+        self.posY += deltaTime * 240
 
         DrawSprite("bullet", self.posX + 7, self.posY)
 
