@@ -7,7 +7,7 @@ from Player import Player
 from Bullet import Bullet
 from Enemy import Enemy
 from random import random as rand
-
+from Menu import Menu
 
 class Game:
 
@@ -21,6 +21,9 @@ class Game:
     _cooldown: float = 0
     _shotcount: int = 0
 
+    _menu: Menu
+
+    
 
     def __init__(self) -> None:
         global GAME
@@ -31,6 +34,7 @@ class Game:
     def Start(self):
         self._background = Background()
         self._player = Player()
+        self._menu = Menu()
         RegisterSprite("Explosion/0", "Explosion/frame1.png")
         RegisterSprite("Explosion/1", "Explosion/frame2.png")
         RegisterSprite("Explosion/2", "Explosion/frame3.png")
@@ -43,6 +47,10 @@ class Game:
 
     def Update(self, screen: pg.surface.Surface, deltaTime: float, time: float):
         
+        self._menu.Draw()
+
+        return
+
         self._background.draw(screen, deltaTime, time)
 
         mousePos = pg.mouse.get_pos()

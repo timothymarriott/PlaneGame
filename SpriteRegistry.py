@@ -1,7 +1,7 @@
 
 import pygame as pg
 
-from Window import WINDOW
+import Window
 
 spriteRegistry = {}
 
