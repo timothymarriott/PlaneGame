@@ -115,6 +115,8 @@ class Game:
             colSize = 22
             if abs(self._player.posX - enemyBullet.posX) < colSize and abs(enemyBullet.posX + colSize / 1.25 - self._player.posX) < colSize:
                 if abs(self._player.posY - enemyBullet.posY) < colSize and abs(enemyBullet.posY + colSize / 1.25 - self._player.posY) < colSize:
+                    if not self._player.doRender:
+                        break
                     print("player died :sob:")
                     self._explosions.append(Explosion(self._player.posX - 10, self._player.posY - 5))
                     self._enemyBullets.remove(enemyBullet)
