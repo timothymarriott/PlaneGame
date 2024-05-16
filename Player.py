@@ -2,6 +2,7 @@ from Input import Input
 import pygame as pg
 from SpriteRegistry import *
 import Window
+from Text import *
 
 class Player:
 
@@ -9,6 +10,8 @@ class Player:
     posY = 0
 
     doRender = True
+
+    deathTimer = 0
 
     PlaneType = "green"
 
@@ -44,3 +47,9 @@ class Player:
 
             DrawSprite(self.PlaneType, self.posX-LoadSprite(self.PlaneType).get_width()/2, self.posY-LoadSprite(self.PlaneType).get_height()/2)
             pass
+        else:
+            self.deathTimer += deltaTime
+            DrawText("GAME OVER", Window.WINDOW._actualWidth / 2 - GetTextWidth("GAME OVER") / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("GAME OVER") / 2, (255, 0, 0))
+            if self.deathTimer > 1.5:
+                Window.WINDOW._game._menu.Reset()
+                Window.WINDOW._game._SkipMenu = False
