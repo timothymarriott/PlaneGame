@@ -6,11 +6,11 @@ class Menu:
         pass
 
     def Start(self):
-        LoadSprite("logo", "initial_logo.png")
+        RegisterSprite("logo", "initial_logo.png")
         pass
 
     def Draw(self):
-        DrawSprite("logo", 0, 0, 0)
+        DrawSprite("logo", 0, 0)
         pass
 
 
