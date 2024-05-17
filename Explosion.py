@@ -28,6 +28,5 @@ class Explosion:
             self.frame += 1
 
         DrawSprite( "Explosion/" + str(self.frame), self.posX, self.posY)
-        print("Drawing explosion at",self.posX, self.posY)
 
         pass
