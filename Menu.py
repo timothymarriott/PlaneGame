@@ -30,6 +30,9 @@ class Menu:
         DrawSprite("logo", self.logoPosX - LoadSprite("logo").get_width() / 2, self.logoPosY - LoadSprite("logo").get_height() / 2)
         if self.logoPosY < 50:
             self.logoPosY += Window.DeltaTime() * self.speed
+            if Input.GetKeyDown(pg.K_SPACE):
+                self.logoPosY = 50
+                self.buttonTime = self.buttonSpeed * 2
         else:
             self.logoPosY = 50
             self.buttonTime += Window.DeltaTime()
