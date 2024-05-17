@@ -6,6 +6,7 @@ from Explosion import Explosion
 from Player import Player
 from Bullet import Bullet
 from Enemy import Enemy
+from CollisionEnemy import CollisionEnemy
 from EnemyBullet import EnemyBullet
 from random import random as rand
 from Menu import Menu
@@ -21,6 +22,7 @@ class Game:
     _bullets = []
     _enemies = []
     _enemyBullets = []
+    _collisionEnemies = []
 
     _player: Player = None
 
@@ -57,12 +59,13 @@ class Game:
         RegisterSprite("Explosion/5", "Explosion/frame6.png")
         RegisterSprite("bullet", "Bullet.png")
         RegisterSprite("defaultEnemy", "smallGreenPlane.png")
+        RegisterSprite("collideEnemy", "FatGreyPlane.png")
         LoadChars()
         pass
 
     def Update(self, deltaTime: float, time: float):
         
-
+            
 
         if not self._SkipMenu:
             self._menu.Draw()
@@ -76,6 +79,9 @@ class Game:
             self._showDebug = not self._showDebug
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
+        if Input.GetKeyDown(pg.K_f):
+            self._collisionEnemies.append(CollisionEnemy(75, 0))
+
 
         self._background.draw(deltaTime, time)
         
@@ -156,6 +162,9 @@ class Game:
             enemy: Enemy
             enemy.draw(deltaTime, time)
             
+        for collisionEnemy in self._collisionEnemies:
+            collisionEnemy : CollisionEnemy 
+            collisionEnemy.draw(deltaTime, time)
 
         self._player.draw( deltaTime, time)
         
