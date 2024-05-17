@@ -1,16 +1,24 @@
 from SpriteRegistry import *
 
-CHARACTERSET = "ABCDEFGHIJKLMOPQRSTUVWXYZ0123456789"
+CHARACTERSET = "ABCDEFGHIJKLMOPQRSTUVWXYZ0123456789: "
 
 
 def LoadChars():
 
     for c in CHARACTERSET:
-        RegisterSprite("Character/" + c, "Characters/" + c + ".png")
+        if c == ':'[0]:
+            #I didnt pick that updown dot name
+            RegisterSprite("Character/:", "Characters/up_down_dot.png")
+        elif c == ' '[0]:
+            continue
+        else:
+            RegisterSprite("Character/" + c, "Characters/" + c + ".png")
 
 def DrawText(text, x: int, y: int, color):
     currX: int = 0
     for c in text:
+        if not c in CHARACTERSET:
+            continue
         if c == ' '[0]:
             currX += LoadSprite("Character/A").get_width()
         else:
@@ -20,6 +28,8 @@ def DrawText(text, x: int, y: int, color):
 def GetTextWidth(text) -> int:
     currX: int = 0
     for c in text:
+        if not c in CHARACTERSET:
+            continue
         if c == ' '[0]:
             currX += LoadSprite("Character/A").get_width()
         else:

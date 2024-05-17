@@ -52,7 +52,10 @@ class Menu:
                     Window.WINDOW._game._explosions.clear()
                     Window.WINDOW._game._enemyBullets.clear()
                     Window.WINDOW._game._background.posY = 0
+                    Window.WINDOW._game._score = 0
+                    Window.WINDOW._game._waveTime = 5
                     Window.WINDOW._game._SkipMenu = True
+                    Window.WINDOW._game._player.PlayStartAnim()
                     
             else:
                 DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 255))
