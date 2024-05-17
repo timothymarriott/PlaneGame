@@ -66,6 +66,8 @@ class Menu:
                 if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
                     self.Selected = 0
                     self.changedThisFrame = True
+                if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                    Window.WINDOW.closed = True
             else:
                 DrawText("EXIT", Window.WINDOW._actualWidth / 2 - GetTextWidth("EXIT") / 2, 160, (255, 255, 255))
 
