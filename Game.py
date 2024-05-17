@@ -63,6 +63,8 @@ class Game:
         RegisterSprite("defaultEnemy", "smallGreenPlane.png")
         RegisterSprite("collideEnemy", "FatGreyPlane.png")
         LoadChars()
+        pg.mixer.music.load("./Assets/music_main.mp3")
+        pg.mixer.music.play(-1)
         pass
 
     def Update(self, deltaTime: float, time: float):
