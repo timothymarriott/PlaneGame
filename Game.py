@@ -95,7 +95,7 @@ class Game:
 
         if self._waveTime <= 0:
             for i in range(round(rand()) * (self._maxEnemiesPerWave - self._minEnemiesPerWave) + self._minEnemiesPerWave):
-                if round(rand() * 10) == 1:
+                if round(rand() * 10) == 1 and self._wave > 3:
                     self._collisionEnemies.append(CollisionEnemy(rand() * 200, rand() * -100))
                 else:
                     self._enemies.append(Enemy(rand() * 200, rand() * -100))
