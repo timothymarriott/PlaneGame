@@ -15,7 +15,7 @@ class Player:
 
     deathTimer = 0
 
-    PlaneType = "green"
+    PlaneType = "grey"
 
     _speed = 130
     _startSpeed = 50
