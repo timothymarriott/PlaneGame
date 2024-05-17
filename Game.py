@@ -84,8 +84,6 @@ class Game:
             self._showDebug = not self._showDebug
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
-        if Input.GetKeyDown(pg.K_f):
-            self._collisionEnemies.append(CollisionEnemy(75, 0))
 
 
         self._background.draw(deltaTime, time)
@@ -129,10 +127,8 @@ class Game:
             explosion: Explosion
             if explosion.frame > 4:
                 self._explosions.remove(explosion)
-                print("Killed Explosion")
             else:
                 explosion.draw(deltaTime, time)
-                print("Drawing Explosion")
 
         for bullet in self._bullets:
             bullet: Bullet
