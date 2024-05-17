@@ -62,6 +62,7 @@ class Player:
         else:
             self.deathTimer += deltaTime
             DrawText("GAME OVER", Window.WINDOW._actualWidth / 2 - GetTextWidth("GAME OVER") / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("GAME OVER") / 2, (255, 0, 0))
+            DrawText("SCORE: " + str(Window.WINDOW._game._score), Window.WINDOW._actualWidth / 2 - GetTextWidth("SCORE: " + str(Window.WINDOW._game._score)) / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("SCORE: " + str(Window.WINDOW._game._score)) / 2 + GetTextHeight("GAME OVER"), (255, 255, 255))
             if self.deathTimer > 1.5:
                 Window.WINDOW._game._menu.Reset()
                 Window.WINDOW._game._SkipMenu = False

@@ -164,11 +164,11 @@ class Game:
         self._player.draw( deltaTime, time)
         
         y = 0
-        DrawText("SCORE: " + str(self._score), 0, y, (255, 255, 255))
-        y += GetTextHeight("SCORE: " + str(self._score))
+        
 
         if self._showDebug:
-            
+            DrawText("SCORE: " + str(self._score), 0, y, (255, 255, 255))
+            y += GetTextHeight("SCORE: " + str(self._score))
             DrawText("WAVE TIME: " + str(floor(self._waveTime)), 0, y, (255, 255, 255))
             y +=  + GetTextHeight("WAVE TIME: " + str(floor(self._waveTime)))
             DrawText("X: " + str(floor(self._player.posX)), 0, y, (255, 255, 255))
