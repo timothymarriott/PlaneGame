@@ -12,14 +12,7 @@ from Menu import Menu
 from Text import *
 from math import floor
 
-WAVES = [
-
-    [[-1, 0], [0, 0], [1, 0]],
-    [[-1, 0], [0, 1], [1, 0], [0, -1]],
-    [[-1, 0], [-0.25, 0], [0.25, 0], [1, 0]],
-    [[0, 0], [1, 1], [-1, 1]],
-
-]
+ENEMIESPERWAVE = 4
 
 class Game:
 
@@ -91,12 +84,13 @@ class Game:
 
         if self._waveTime <= 0:
             self._waveTime = 4
-            #self._enemies.append(Enemy(rand() * 200, 0))
-
-            Wave = WAVES[round(rand()*(len(WAVES) - 1))]
-            print(Wave)
-            for plane in Wave:
-                self._enemies.append(Enemy(Window.WINDOW._actualWidth / 2 + plane[0] * 75, plane[1] * 75 - 100))
+            for i in range(ENEMIESPERWAVE):
+                self._enemies.append(Enemy(rand() * 200, 0))
+            
+            #Wave = WAVES[round(rand()*(len(WAVES) - 1))]
+            #print(Wave)
+            #for plane in Wave:
+            #    self._enemies.append(Enemy(Window.WINDOW._actualWidth / 2 + plane[0] * 75, plane[1] * 75 - 100))
 
         
 
@@ -136,6 +130,7 @@ class Game:
                         self._enemies.remove(enemy)
                         self._bullets.remove(bullet)
                         self._score += 10
+                        break
 
 
             bullet.draw(deltaTime, time)
