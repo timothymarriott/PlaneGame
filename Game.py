@@ -182,6 +182,13 @@ class Game:
             DrawText("WAVE: " + str(self._wave), 0, y, (255, 255, 255))
             y += GetTextHeight("WAVE: " + str(self._wave))
 
+            totalWaveTime = 4
+            for i in range(self._wave):
+                totalWaveTime *= 0.9
+
+            DrawText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), 0, y, (255, 255, 255))
+            y +=  + GetTextHeight("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)))
+
         
         return
     
