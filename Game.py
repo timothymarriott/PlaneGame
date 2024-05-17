@@ -32,13 +32,14 @@ class Game:
 
     _SkipMenu: bool = False
 
-    _waveTime: float = 4
+    _waveTime: float = 2
 
     _showDebug: bool = False
 
     _score: int = 0
 
-    _enemiesPerWave = 5
+    _minEnemiesPerWave = 3
+    _maxEnemiesPerWave = 5
     
     _wave = 0
 
@@ -93,10 +94,13 @@ class Game:
         mousePos = pg.mouse.get_pos()
 
         if self._waveTime <= 0:
-            for i in range(self._enemiesPerWave):
-                self._enemies.append(Enemy(rand() * 200, rand() * -100))
+            for i in range(round(rand()) * (self._maxEnemiesPerWave - self._minEnemiesPerWave) + self._minEnemiesPerWave):
+                if round(rand() * 10) == 1:
+                    self._collisionEnemies.append(CollisionEnemy(rand() * 200, rand() * -100))
+                else:
+                    self._enemies.append(Enemy(rand() * 200, rand() * -100))
             self._wave += 1
-            self._waveTime = 4
+            self._waveTime = 8
             for i in range(self._wave):
                 self._waveTime *= 0.9
             
@@ -203,7 +207,7 @@ class Game:
             DrawText("WAVE: " + str(self._wave), 0, y, (255, 255, 255))
             y += GetTextHeight("WAVE: " + str(self._wave))
 
-            totalWaveTime = 4
+            totalWaveTime = 8
             for i in range(self._wave):
                 totalWaveTime *= 0.9
 
