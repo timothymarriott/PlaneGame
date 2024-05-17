@@ -1,6 +1,6 @@
 from SpriteRegistry import *
 
-CHARACTERSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789: "
+CHARACTERSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:. "
 
 
 def LoadChars():
@@ -9,6 +9,9 @@ def LoadChars():
         if c == ':'[0]:
             #I didnt pick that updown dot name
             RegisterSprite("Character/:", "Characters/up_down_dot.png")
+        elif c == '.'[0]:
+            #I didnt pick that updown dot name
+            RegisterSprite("Character/.", "Characters/dot.png")
         elif c == ' '[0]:
             continue
         else:
@@ -21,6 +24,9 @@ def DrawText(text, x: int, y: int, color):
             continue
         if c == ' '[0]:
             currX += LoadSprite("Character/A").get_width()
+        elif c == '.'[0]:
+            DrawTintedSprite("Character/" + c, x + currX, y+LoadSprite("Character/A").get_height() - LoadSprite("Character/" + c).get_height(), color)
+            currX += LoadSprite("Character/" + c).get_width()
         else:
             DrawTintedSprite("Character/" + c, x + currX, y, color)
             currX += LoadSprite("Character/" + c).get_width()

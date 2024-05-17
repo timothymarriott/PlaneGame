@@ -13,7 +13,6 @@ from Menu import Menu
 from Text import *
 from math import floor
 
-ENEMIESPERWAVE = 4
 
 class Game:
 
@@ -38,7 +37,10 @@ class Game:
     _showDebug: bool = False
 
     _score: int = 0
+
+    _enemiesPerWave = 5
     
+    _wave = 0
 
     def __init__(self) -> None:
         global GAME
@@ -89,9 +91,12 @@ class Game:
         mousePos = pg.mouse.get_pos()
 
         if self._waveTime <= 0:
+            for i in range(self._enemiesPerWave):
+                self._enemies.append(Enemy(rand() * 200, rand() * -100))
+            self._wave += 1
             self._waveTime = 4
-            for i in range(ENEMIESPERWAVE):
-                self._enemies.append(Enemy(rand() * 200, 0))
+            for i in range(self._wave):
+                self._waveTime *= 0.9
             
             #Wave = WAVES[round(rand()*(len(WAVES) - 1))]
             #print(Wave)
@@ -174,8 +179,8 @@ class Game:
         if self._showDebug:
             DrawText("SCORE: " + str(self._score), 0, y, (255, 255, 255))
             y += GetTextHeight("SCORE: " + str(self._score))
-            DrawText("WAVE TIME: " + str(floor(self._waveTime)), 0, y, (255, 255, 255))
-            y +=  + GetTextHeight("WAVE TIME: " + str(floor(self._waveTime)))
+            DrawText("WAVE TIME: " + str(round(self._waveTime, 2)), 0, y, (255, 255, 255))
+            y +=  + GetTextHeight("WAVE TIME: " + str(round(self._waveTime, 2)))
             DrawText("X: " + str(floor(self._player.posX)), 0, y, (255, 255, 255))
             DrawText("Y: " + str(floor(self._player.posY)), 0 + GetTextWidth("X: 999"), y, (255, 255, 255))
             y += GetTextHeight("X: " + str(floor(self._player.posX)) + "Y: " + str(floor(self._player.posY)))
@@ -183,6 +188,15 @@ class Game:
             y += GetTextHeight("ENEMY COUNT: " + str(len(self._enemies)))
             DrawText("GOD MODE: " + str(self._player._godmode), 0, y, (255, 255, 255))
             y += GetTextHeight("GOD MODE: " + str(self._player._godmode))
+            DrawText("WAVE: " + str(self._wave), 0, y, (255, 255, 255))
+            y += GetTextHeight("WAVE: " + str(self._wave))
+
+            totalWaveTime = 4
+            for i in range(self._wave):
+                totalWaveTime *= 0.9
+
+            DrawText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), 0, y, (255, 255, 255))
+            y +=  + GetTextHeight("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)))
 
         
         return
