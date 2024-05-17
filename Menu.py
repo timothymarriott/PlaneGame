@@ -57,6 +57,7 @@ class Menu:
                     Window.WINDOW._game._background.posY = 0
                     Window.WINDOW._game._score = 0
                     Window.WINDOW._game._waveTime = 5
+                    Window.WINDOW._game._wave = 0
                     Window.WINDOW._game._SkipMenu = True
                     Window.WINDOW._game._player.PlayStartAnim()
                     
