@@ -10,6 +10,15 @@ from EnemyBullet import EnemyBullet
 from random import random as rand
 from Menu import Menu
 from Text import *
+from math import floor
+
+WAVES = [
+
+    [[-1, 0], [0, 0], [1, 0]],
+    [[-1, 0], [0, 1], [1, 0], [0, -1]],
+    [[0, 0], [1, 1], [-1, 1]],
+
+]
 
 class Game:
 
@@ -26,7 +35,13 @@ class Game:
 
     _menu: Menu
 
-    _SkipMenu: bool = True
+    _SkipMenu: bool = False
+
+    _waveTime: float = 4
+
+    _showDebug: bool = False
+
+    _score: int = 0
     
 
     def __init__(self) -> None:
@@ -53,6 +68,8 @@ class Game:
 
     def Update(self, deltaTime: float, time: float):
         
+
+
         if not self._SkipMenu:
             self._menu.Draw()
             return
@@ -61,13 +78,28 @@ class Game:
             self._menu.Reset()
             self._SkipMenu = False
 
+        if Input.GetKeyDown(pg.K_z):
+            self._showDebug = not self._showDebug
+        if Input.GetKeyDown(pg.K_i):
+            self._player._godmode = not self._player._godmode
+
         self._background.draw(deltaTime, time)
+        
 
         mousePos = pg.mouse.get_pos()
 
-        if Input.GetKeyDown(pg.K_f):
-            
-            self._enemies.append(Enemy(rand() * 200, 0))
+        if self._waveTime <= 0:
+            self._waveTime = 4
+            #self._enemies.append(Enemy(rand() * 200, 0))
+
+            Wave = WAVES[round(rand()*(len(WAVES) - 1))]
+            print(Wave)
+            for plane in Wave:
+                self._enemies.append(Enemy(Window.WINDOW._actualWidth / 2 + plane[0] * 75, plane[1] * 75 - 100))
+
+        
+
+        self._waveTime -= deltaTime
 
         if Input.GetKeyDown(pg.K_SPACE):
             if self._player.doRender == True:
@@ -102,6 +134,7 @@ class Game:
                         self._explosions.append(Explosion(enemy.posX, enemy.posY))
                         self._enemies.remove(enemy)
                         self._bullets.remove(bullet)
+                        self._score += 10
 
 
             bullet.draw(deltaTime, time)
@@ -113,12 +146,12 @@ class Game:
             colSize = 22
             if abs(self._player.posX - enemyBullet.posX) < colSize and abs(enemyBullet.posX + colSize / 1.25 - self._player.posX) < colSize:
                 if abs(self._player.posY - enemyBullet.posY) < colSize and abs(enemyBullet.posY + colSize / 1.25 - self._player.posY) < colSize:
-                    if not self._player.doRender:
-                        break
-                    print("player died :sob:")
-                    self._explosions.append(Explosion(self._player.posX - 10, self._player.posY - 5))
-                    self._enemyBullets.remove(enemyBullet)
-                    self._player.doRender = False
+                    if self._player.doRender and not self._player._godmode:
+                        
+                        print("player died :sob:")
+                        self._explosions.append(Explosion(self._player.posX - 10, self._player.posY - 5))
+                        self._enemyBullets.remove(enemyBullet)
+                        self._player.doRender = False
 
 
             enemyBullet.draw( deltaTime, time)
@@ -129,6 +162,23 @@ class Game:
             
 
         self._player.draw( deltaTime, time)
+        
+        y = 0
+        DrawText("SCORE: " + str(self._score), 0, y, (255, 255, 255))
+        y += GetTextHeight("SCORE: " + str(self._score))
+
+        if self._showDebug:
+            
+            DrawText("WAVE TIME: " + str(floor(self._waveTime)), 0, y, (255, 255, 255))
+            y +=  + GetTextHeight("WAVE TIME: " + str(floor(self._waveTime)))
+            DrawText("X: " + str(floor(self._player.posX)), 0, y, (255, 255, 255))
+            DrawText("Y: " + str(floor(self._player.posY)), 0 + GetTextWidth("X: 999"), y, (255, 255, 255))
+            y += GetTextHeight("X: " + str(floor(self._player.posX)) + "Y: " + str(floor(self._player.posY)))
+            DrawText("ENEMY COUNT: " + str(len(self._enemies)), 0, y, (255, 255, 255))
+            y += GetTextHeight("ENEMY COUNT: " + str(len(self._enemies)))
+            DrawText("GOD MODE: " + str(self._player._godmode), 0, y, (255, 255, 255))
+            y += GetTextHeight("GOD MODE: " + str(self._player._godmode))
+
         
         return
     
