@@ -24,6 +24,8 @@ class Window:
 
     clock: pg.time.Clock = None
 
+    closed = False
+
     def __init__(self, title, width, height):
         global WINDOW
         WINDOW = self
@@ -43,7 +45,7 @@ class Window:
 
         self.clock = pg.time.Clock()
 
-        closed = False
+        self.closed = False
 
         time = 0
 
@@ -54,12 +56,12 @@ class Window:
 
         self._game.Start()
 
-        while not closed:
+        while not self.closed:
 
             for event in pg.event.get():
                 self._input.PollEvents(event);
                 if event.type == pg.QUIT:
-                    closed = True
+                    self.closed = True
 
             self._display.fill((0, 0, 0))
             

@@ -30,6 +30,9 @@ class Menu:
         DrawSprite("logo", self.logoPosX - LoadSprite("logo").get_width() / 2, self.logoPosY - LoadSprite("logo").get_height() / 2)
         if self.logoPosY < 50:
             self.logoPosY += Window.DeltaTime() * self.speed
+            if Input.GetKeyDown(pg.K_SPACE):
+                self.logoPosY = 50
+                self.buttonTime = self.buttonSpeed * 2
         else:
             self.logoPosY = 50
             self.buttonTime += Window.DeltaTime()
@@ -66,6 +69,8 @@ class Menu:
                 if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
                     self.Selected = 0
                     self.changedThisFrame = True
+                if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                    Window.WINDOW.closed = True
             else:
                 DrawText("EXIT", Window.WINDOW._actualWidth / 2 - GetTextWidth("EXIT") / 2, 160, (255, 255, 255))
 
