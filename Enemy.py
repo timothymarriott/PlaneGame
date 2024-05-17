@@ -45,7 +45,7 @@ class Enemy:
         self.distanceToPlayerY = abs(Window.WINDOW._game._player.posY - self.posY)
         self.distanceToPlayer = sqrt(self.distanceToPlayerX * self.distanceToPlayerX + self.distanceToPlayerY * self.distanceToPlayerY)
 
-        if self.distanceToPlayer < 100:
+        if self.distanceToPlayer < 150:
             if self.posY < Window.WINDOW._game._player.posY:
                 if Window.WINDOW._game._player.doRender == True:
                     if self.distanceToPlayerX < 15:
