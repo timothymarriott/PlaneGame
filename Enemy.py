@@ -5,14 +5,15 @@ import Window
 from math import sqrt
 from EnemyBullet import EnemyBullet
 
-
 class Enemy:
     posX = 0
     posY = 0
     distanceToPlayerX = 100
     distanceToPlayerY = 100
     distanceToPlayer = 100
+    hasShot = False
     shootTimer = 0
+    movementTimer = 0
 
     def __init__(self, x: int, y: int) -> None:
         self.posX = x
@@ -21,7 +22,18 @@ class Enemy:
 
     def draw(self, deltaTime: float, time: float):
 
-        self.posY += deltaTime * 60
+
+        if self.hasShot == True:
+            self.movementTimer += deltaTime
+
+        if self.movementTimer == 0:
+            self.posY += deltaTime * 60
+        elif self.movementTimer > 1:
+            self.posY += deltaTime * -100
+        elif  self.movementTimer > 0.6:
+            self.posY += deltaTime * -50
+        elif self.movementTimer  > 0.25:
+            self.posY += deltaTime * -20
         self.shootTimer += deltaTime
 
         DrawSprite("defaultEnemy", self.posX, self.posY)
@@ -37,6 +49,7 @@ class Enemy:
                         if self.shootTimer > 1:
                             Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
                             self.shootTimer = 0
+                            self.hasShot = True
                     if Window.WINDOW._game._player.posX - self.posX < -15:
                         if self.shootTimer > 1:
                             Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
@@ -44,12 +57,14 @@ class Enemy:
                             enemyB.speed /= 2
                             enemyB.rot = -45
                             self.shootTimer = 0
+                            self.hasShot = True
                     if self.distanceToPlayerX > 15:
                         if self.shootTimer > 1:
                             Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY))
                             enemyB = Window.WINDOW._game._enemyBullets[len(Window.WINDOW._game._enemyBullets) - 1]
                             enemyB.rot = 45
                             enemyB.speed /= 2
+                            self.hasShot= True
                             self.shootTimer = 0
         
         pass
