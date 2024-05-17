@@ -142,6 +142,16 @@ class Game:
                         self._bullets.remove(bullet)
                         self._score += 10
                         break
+            for enemy in self._collisionEnemies:
+                enemy : CollisionEnemy
+                colSize = 25
+                if abs(enemy.posX + colSize / 1.25 - bullet.posX) < colSize and abs(bullet.posX - enemy.posX) < colSize:
+                    if abs(enemy.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - enemy.posY) < colSize:
+                        self._explosions.append(Explosion(enemy.posX, enemy.posY))
+                        self._collisionEnemies.remove(enemy)
+                        self._bullets.remove(bullet)
+                        self._score += 10
+                        break
 
 
             bullet.draw(deltaTime, time)

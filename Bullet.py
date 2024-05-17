@@ -22,6 +22,5 @@ class Bullet:
         self.posY -= deltaTime * 240 * 2
 
         DrawSprite("bullet", self.posX-1, self.posY)
-        print("Drawing Bullet at",self.posX-1, self.posY)
 
         pass
