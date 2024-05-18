@@ -1,6 +1,7 @@
 from SpriteRegistry import *
 from Text import *
 from Input import *
+from Program import app_folder
 
 class Menu:
 
@@ -125,6 +126,7 @@ class Menu:
                         self.changedThisFrame = True
                     if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
                         Window.WINDOW._game._Muted = not Window.WINDOW._game._Muted
+                        
                 else:
                     DrawText("MUTE: NO", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: NO") / 2, 160, (255, 255, 255))
 

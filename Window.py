@@ -81,6 +81,8 @@ class Window:
 
             self.clock.tick(60)
 
+        self._game.End();
+
         pg.quit()
         quit()
 
