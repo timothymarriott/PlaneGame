@@ -159,6 +159,8 @@ class Menu:
 
         self.changedThisFrame = False
 
+        DrawText("BY DANE SEB AND TIM", Window.WINDOW._actualWidth / 2 - GetTextWidth("BY DANE SEB AND TIM") / 2, Window.WINDOW._actualHeight - GetTextHeight("BY DANE SEB AND TIM"), (255, 255, 255))
+
         pass
 
     def Reset(self):
