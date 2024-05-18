@@ -43,6 +43,8 @@ class Game:
     
     _wave = 0
 
+    _Muted: bool = False
+
     def __init__(self) -> None:
         global GAME
         GAME = self
@@ -66,11 +68,15 @@ class Game:
         LoadChars()
         pg.mixer.music.load("./Assets/music_main.mp3")
         pg.mixer.music.play(-1)
+        
         pass
 
     def Update(self, deltaTime: float, time: float):
         
-            
+        if self._Muted:
+            pg.mixer.music.set_volume(0)
+        else:
+            pg.mixer.music.set_volume(1)
 
         if not self._SkipMenu:
             self._menu.Draw()

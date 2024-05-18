@@ -16,6 +16,8 @@ class Menu:
     speed = 20
     buttonSpeed = 1
 
+    inSettings = False
+
     def __init__(self) -> None:
         pass
 
@@ -32,49 +34,99 @@ class Menu:
             self.logoPosY += Window.DeltaTime() * self.speed
             if Input.GetKeyDown(pg.K_SPACE):
                 self.logoPosY = 50
-                self.buttonTime = self.buttonSpeed * 2
+                self.buttonTime = self.buttonSpeed * 3
+                self.changedThisFrame = True
         else:
             self.logoPosY = 50
             self.buttonTime += Window.DeltaTime()
 
-        if self.buttonTime > self.buttonSpeed:
-            #DrawSprite("logo", 0, 180)
+        if not self.inSettings:
+
+            if self.buttonTime > self.buttonSpeed:
+                #DrawSprite("logo", 0, 180)
+                
+                if self.Selected == 0:
+                    DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 0))
+                    if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame and self.buttonTime > self.buttonSpeed * 2:
+                        self.Selected = 1
+                        self.changedThisFrame = True
+                    if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                        Window.WINDOW._game._player.deathTimer = 0
+                        Window.WINDOW._game._player.doRender = True
+                        Window.WINDOW._game._player.posX = Window.WINDOW._actualWidth / 2
+                        Window.WINDOW._game._player.posY = Window.WINDOW._actualHeight / 2
+                        Window.WINDOW._game._enemies.clear()
+                        Window.WINDOW._game._bullets.clear()
+                        Window.WINDOW._game._explosions.clear()
+                        Window.WINDOW._game._collisionEnemies.clear()
+                        Window.WINDOW._game._enemyBullets.clear()
+                        Window.WINDOW._game._background.posY = 0
+                        Window.WINDOW._game._score = 0
+                        Window.WINDOW._game._waveTime = 2
+                        Window.WINDOW._game._wave = 0
+                        Window.WINDOW._game._SkipMenu = True
+                        Window.WINDOW._game._player.PlayStartAnim()
+                        
+                else:
+                    DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 255))
+            if self.buttonTime > self.buttonSpeed * 2:
+                
+                if self.Selected == 1:
+                    DrawText("SETTINGS", Window.WINDOW._actualWidth / 2 - GetTextWidth("SETTINGS") / 2, 160, (255, 255, 0))
+                    if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame and self.buttonTime > self.buttonSpeed * 3:
+                        self.Selected = 2
+                        self.changedThisFrame = True
+                    if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                        self.inSettings = True
+                        self.Selected = 0
+                else:
+                    DrawText("SETTINGS", Window.WINDOW._actualWidth / 2 - GetTextWidth("SETTINGS") / 2, 160, (255, 255, 255))
             
+            if self.buttonTime > self.buttonSpeed * 3:
+                
+                if self.Selected == 2:
+                    DrawText("EXIT", Window.WINDOW._actualWidth / 2 - GetTextWidth("EXIT") / 2, 200, (255, 255, 0))
+                    if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
+                        self.Selected = 0
+                        self.changedThisFrame = True
+                    if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                        Window.WINDOW.closed = True
+                else:
+                    DrawText("EXIT", Window.WINDOW._actualWidth / 2 - GetTextWidth("EXIT") / 2, 200, (255, 255, 255))
+
+            
+        else:
             if self.Selected == 0:
-                DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 0))
-                if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame and self.buttonTime > self.buttonSpeed * 2:
+                DrawText("BACK", Window.WINDOW._actualWidth / 2 - GetTextWidth("BACK") / 2, 120, (255, 255, 0))
+                if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
                     self.Selected = 1
                     self.changedThisFrame = True
                 if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
-                    Window.WINDOW._game._player.deathTimer = 0
-                    Window.WINDOW._game._player.doRender = True
-                    Window.WINDOW._game._player.posX = Window.WINDOW._actualWidth / 2
-                    Window.WINDOW._game._player.posY = Window.WINDOW._actualHeight / 2
-                    Window.WINDOW._game._enemies.clear()
-                    Window.WINDOW._game._bullets.clear()
-                    Window.WINDOW._game._explosions.clear()
-                    Window.WINDOW._game._collisionEnemies.clear()
-                    Window.WINDOW._game._enemyBullets.clear()
-                    Window.WINDOW._game._background.posY = 0
-                    Window.WINDOW._game._score = 0
-                    Window.WINDOW._game._waveTime = 2
-                    Window.WINDOW._game._wave = 0
-                    Window.WINDOW._game._SkipMenu = True
-                    Window.WINDOW._game._player.PlayStartAnim()
-                    
+                    self.inSettings = False
             else:
-                DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 255))
-        if self.buttonTime > self.buttonSpeed * 2:
-            
-            if self.Selected == 1:
-                DrawText("EXIT", Window.WINDOW._actualWidth / 2 - GetTextWidth("EXIT") / 2, 160, (255, 255, 0))
-                if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
-                    self.Selected = 0
-                    self.changedThisFrame = True
-                if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
-                    Window.WINDOW.closed = True
+                DrawText("BACK", Window.WINDOW._actualWidth / 2 - GetTextWidth("BACK") / 2, 120, (255, 255, 255))
+
+            if Window.WINDOW._game._Muted:
+
+                if self.Selected == 1:
+                    DrawText("MUTE: YES", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: YES") / 2, 160, (255, 255, 0))
+                    if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
+                        self.Selected = 0
+                        self.changedThisFrame = True
+                    if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                        Window.WINDOW._game._Muted = not Window.WINDOW._game._Muted
+                else:
+                    DrawText("MUTE: YES", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: YES") / 2, 160, (255, 255, 255))
             else:
-                DrawText("EXIT", Window.WINDOW._actualWidth / 2 - GetTextWidth("EXIT") / 2, 160, (255, 255, 255))
+                if self.Selected == 1:
+                    DrawText("MUTE: NO", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: NO") / 2, 160, (255, 255, 0))
+                    if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
+                        self.Selected = 0
+                        self.changedThisFrame = True
+                    if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                        Window.WINDOW._game._Muted = not Window.WINDOW._game._Muted
+                else:
+                    DrawText("MUTE: NO", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: NO") / 2, 160, (255, 255, 255))
 
         self.changedThisFrame = False
 
