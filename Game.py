@@ -12,7 +12,8 @@ from random import random as rand
 from Menu import Menu
 from Text import *
 from math import floor
-
+from Program import app_folder
+import os
 
 class Game:
 
@@ -68,6 +69,18 @@ class Game:
         LoadChars()
         pg.mixer.music.load("./Assets/music_main.mp3")
         pg.mixer.music.play(-1)
+
+        config = os.path.join(app_folder("1942-Remake"), "settings.ini")
+        print(app_folder("1942-Remake"))
+        if os.path.exists(config):
+        
+            configFile = open(config, "+r")
+            lines = configFile.readlines()
+            if "Muted = 1" in lines[1]:
+                self._Muted = True
+            elif "Muted = 1" in lines[1]:
+                self._Muted = False
+            configFile.close()
         
         pass
 
@@ -219,6 +232,17 @@ class Game:
         
         return
     
-    def End():
+    def End(self):
+        
+        config = os.path.join(app_folder("1942-Remake"), "settings.ini")
+        if os.path.exists(config):
+            os.remove(config)
+        
+        configFile = open(config, "+w")
+        if self._Muted:
+            configFile.write("[Audio]\nMuted = 1")
+        else:
+            configFile.write("[Audio]\nMuted = 0")
+        configFile.close()
         pass
     

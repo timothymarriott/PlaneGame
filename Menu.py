@@ -1,7 +1,7 @@
 from SpriteRegistry import *
 from Text import *
 from Input import *
-from Program import app_folder
+
 
 class Menu:
 
