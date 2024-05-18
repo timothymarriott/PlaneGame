@@ -38,6 +38,8 @@ class Game:
     _showDebug: bool = False
 
     _score: int = 0
+    _highScore: int = 0
+    _lastHighscore: int = 0
 
     _minEnemiesPerWave = 3
     _maxEnemiesPerWave = 5
@@ -80,6 +82,10 @@ class Game:
                 self._Muted = True
             elif "Muted = 1" in lines[1]:
                 self._Muted = False
+            
+            self._highScore = int(lines[4].replace("HighScore = ", ""))
+
+
             configFile.close()
         
         pass
@@ -204,12 +210,18 @@ class Game:
 
         self._player.draw( deltaTime, time)
         
+        if self._score > self._highScore:
+            self._highScore = self._score
+        
         y = 0
+        
         
 
         if self._showDebug:
             DrawText("SCORE: " + str(self._score), 0, y, (255, 255, 255))
             y += GetTextHeight("SCORE: " + str(self._score))
+            DrawText("HIGH SCORE: " + str(self._highScore), 0, y, (255, 255, 255))
+            y += GetTextHeight("HIGH SCORE: " + str(self._highScore))
             DrawText("WAVE TIME: " + str(round(self._waveTime, 2)), 0, y, (255, 255, 255))
             y +=  + GetTextHeight("WAVE TIME: " + str(round(self._waveTime, 2)))
             DrawText("X: " + str(floor(self._player.posX)), 0, y, (255, 255, 255))
@@ -240,9 +252,12 @@ class Game:
         
         configFile = open(config, "+w")
         if self._Muted:
-            configFile.write("[Audio]\nMuted = 1")
+            configFile.write("[Audio]\nMuted = 1\n")
         else:
-            configFile.write("[Audio]\nMuted = 0")
+            configFile.write("[Audio]\nMuted = 0\n")
+
+        configFile.write("\n[Scores]\nHighScore = " + str(self._highScore))
+
         configFile.close()
         pass
     

@@ -35,14 +35,14 @@ class Menu:
             self.logoPosY += Window.DeltaTime() * self.speed
             if Input.GetKeyDown(pg.K_SPACE):
                 self.logoPosY = 50
-                self.buttonTime = self.buttonSpeed * 3
+                self.buttonTime = self.buttonSpeed * 4
                 self.changedThisFrame = True
         else:
             self.logoPosY = 50
             self.buttonTime += Window.DeltaTime()
 
         if not self.inSettings:
-
+            
             if self.buttonTime > self.buttonSpeed:
                 #DrawSprite("logo", 0, 180)
                 
@@ -67,6 +67,7 @@ class Menu:
                         Window.WINDOW._game._wave = 0
                         Window.WINDOW._game._SkipMenu = True
                         Window.WINDOW._game._player.PlayStartAnim()
+                        Window.WINDOW._game._lastHighscore = Window.WINDOW._game._highScore
                         
                 else:
                     DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 255))
@@ -95,6 +96,10 @@ class Menu:
                 else:
                     DrawText("EXIT", Window.WINDOW._actualWidth / 2 - GetTextWidth("EXIT") / 2, 200, (255, 255, 255))
 
+            if self.buttonTime > self.buttonSpeed * 4:
+                if not Window.WINDOW._game._highScore == 0:
+                    DrawText("HIGHSCORE: " + str(Window.WINDOW._game._highScore), Window.WINDOW._actualWidth / 2 - GetTextWidth("HIGHSCORE: " + str(Window.WINDOW._game._highScore)) / 2, 240, (255, 255, 255))
+                
             
         else:
             if self.Selected == 0:
@@ -110,25 +115,47 @@ class Menu:
             if Window.WINDOW._game._Muted:
 
                 if self.Selected == 1:
-                    DrawText("MUTE: YES", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: YES") / 2, 160, (255, 255, 0))
+                    DrawText("MUTED: YES", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTED: YES") / 2, 160, (255, 255, 0))
                     if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
-                        self.Selected = 0
+                        self.Selected = 2
                         self.changedThisFrame = True
                     if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
                         Window.WINDOW._game._Muted = not Window.WINDOW._game._Muted
                 else:
-                    DrawText("MUTE: YES", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: YES") / 2, 160, (255, 255, 255))
+                    DrawText("MUTED: YES", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTED: YES") / 2, 160, (255, 255, 255))
             else:
                 if self.Selected == 1:
-                    DrawText("MUTE: NO", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: NO") / 2, 160, (255, 255, 0))
+                    DrawText("MUTED: NO", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTED: NO") / 2, 160, (255, 255, 0))
                     if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
-                        self.Selected = 0
+                        self.Selected = 2
                         self.changedThisFrame = True
                     if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
                         Window.WINDOW._game._Muted = not Window.WINDOW._game._Muted
                         
                 else:
-                    DrawText("MUTE: NO", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTE: NO") / 2, 160, (255, 255, 255))
+                    DrawText("MUTED: NO", Window.WINDOW._actualWidth / 2 - GetTextWidth("MUTED: NO") / 2, 160, (255, 255, 255))
+
+            if not Window.WINDOW._game._highScore == 0:
+
+                if self.Selected == 2:
+                    DrawText("RESET HIGHSCORE", Window.WINDOW._actualWidth / 2 - GetTextWidth("RESET HIGHSCORE") / 2, 200, (255, 255, 0))
+                    if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
+                        self.Selected = 0
+                        self.changedThisFrame = True
+                    if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                        Window.WINDOW._game._highScore = 0
+                else:
+                    DrawText("RESET HIGHSCORE", Window.WINDOW._actualWidth / 2 - GetTextWidth("RESET HIGHSCORE") / 2, 200, (255, 0, 0))
+            else:
+                if self.Selected == 2:
+                    DrawText("NO HIGHSCORE", Window.WINDOW._actualWidth / 2 - GetTextWidth("NO HIGHSCORE") / 2, 200, (255, 255, 0))
+                    if Input.GetKeyDown(pg.K_SPACE) and not self.changedThisFrame:
+                        self.Selected = 0
+                        self.changedThisFrame = True
+                    if Input.GetKeyDown(pg.K_RETURN) and not self.changedThisFrame:
+                        Window.WINDOW._game._highScore = 0
+                else:
+                    DrawText("NO HIGHSCORE", Window.WINDOW._actualWidth / 2 - GetTextWidth("NO HIGHSCORE") / 2, 200, (255, 0, 0))
 
         self.changedThisFrame = False
 
