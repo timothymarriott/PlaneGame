@@ -39,7 +39,6 @@ class Enemy:
 
         if self.hasCheckedIfBomber == False:
             if round(rand() * 10) <= self.bombEnemyChance:
-                print("bomber enemy")
                 self.bomberEnemy = True
                 self.bulletShootDistance = 0
 
