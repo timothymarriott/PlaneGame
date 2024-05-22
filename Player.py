@@ -3,6 +3,7 @@ import pygame as pg
 from SpriteRegistry import *
 import Window
 from Text import *
+import Leaderboard
 
 class Player:
 
@@ -63,6 +64,7 @@ class Player:
             self.deathTimer += deltaTime
             DrawText("GAME OVER", Window.WINDOW._actualWidth / 2 - GetTextWidth("GAME OVER") / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("GAME OVER") / 2, (255, 0, 0))
             if Window.WINDOW._game._score > Window.WINDOW._game._lastHighscore:
+                
                 DrawText("SCORE: " + str(Window.WINDOW._game._score), Window.WINDOW._actualWidth / 2 - GetTextWidth("SCORE: " + str(Window.WINDOW._game._score)) / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("SCORE: " + str(Window.WINDOW._game._score)) / 2 + GetTextHeight("GAME OVER"), (255, 255, 0))
             else:
                 DrawText("SCORE: " + str(Window.WINDOW._game._score), Window.WINDOW._actualWidth / 2 - GetTextWidth("SCORE: " + str(Window.WINDOW._game._score)) / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("SCORE: " + str(Window.WINDOW._game._score)) / 2 + GetTextHeight("GAME OVER"), (255, 255, 255))
