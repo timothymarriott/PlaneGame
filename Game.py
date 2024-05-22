@@ -14,6 +14,7 @@ from Text import *
 from math import floor
 from Program import app_folder
 import os
+import Leaderboard
 
 class Game:
 
@@ -205,6 +206,8 @@ class Game:
                         self._explosions.append(Explosion(self._player.posX - 10, self._player.posY - 5))
                         self._enemyBullets.remove(enemyBullet)
                         self._player.doRender = False
+                        if self._score > self._lastHighscore:
+                            Leaderboard.UploadScore(Window.WINDOW._game._score)
 
 
             enemyBullet.draw( deltaTime, time)
