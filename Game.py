@@ -37,6 +37,11 @@ class Game:
 
     _showDebug: bool = False
 
+    _startWaveTime: int = 7
+    _scaling: float = 115
+    _timeBetweenWaves: float = _startWaveTime
+    _stopScalingAt: float = 1.8
+
     _score: int = 0
     _highScore: int = 0
     _lastHighscore: int = 0
@@ -123,9 +128,13 @@ class Game:
                 else:
                     self._enemies.append(Enemy(rand() * 200, rand() * -100))
             self._wave += 1
-            self._waveTime = 8
+            self._waveTime = self._startWaveTime
             for i in range(self._wave):
-                self._waveTime *= 0.9
+                if self._timeBetweenWaves > self._stopScalingAt:
+                    self._waveTime *= 1 - (self._waveTime) / self._scaling
+                else:
+                    self._waveTime = self._stopScalingAt
+            self._timeBetweenWaves = self._waveTime
             
             #Wave = WAVES[round(rand()*(len(WAVES) - 1))]
             #print(Wave)
@@ -215,7 +224,6 @@ class Game:
         
         y = 0
         
-        
 
         if self._showDebug:
             DrawText("SCORE: " + str(self._score), 0, y, (255, 255, 255))
@@ -234,9 +242,7 @@ class Game:
             DrawText("WAVE: " + str(self._wave), 0, y, (255, 255, 255))
             y += GetTextHeight("WAVE: " + str(self._wave))
 
-            totalWaveTime = 8
-            for i in range(self._wave):
-                totalWaveTime *= 0.9
+            totalWaveTime = self._timeBetweenWaves
 
             DrawText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), 0, y, (255, 255, 255))
             y +=  + GetTextHeight("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)))
