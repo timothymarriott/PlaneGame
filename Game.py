@@ -39,18 +39,21 @@ class Game:
     _showDebug: bool = False
 
     #Improved wave spawning variables. Controls alot about the wave spawning.
-    _startWaveTime: int = 7
-    _scaling: float = 115
+    _startWaveTime: int = 7 #How fast the waves are at the start of the game.
+    
+    _scaling: float = 115 #Dont worry about this, higher number will make the waves times decrease slower.
+
     _timeBetweenWaves: float = _startWaveTime
-    _stopScalingAt: float = 1.5
+
+    _stopScalingAt: float = 1.5 #This is the FASTEST waves can spawn. Increase/decrease to change.
 
 
-    _colEnemyChance: float = 1 #When rolling one in 10, checks if it is equal to or smaller than this number. Increase to change spawn odds.
-    _maxColChance: int = 3
+    _colEnemyChance: float = 1 #When rolling one in 10 to choose enemy, checks if it is equal to or smaller than this number. Increase to change spawn odds.
+    _maxColChance: int = 3 #The max percentage change of a collision enemy (chance = var * 10, so if its 3, theres a 30% chance.)
 
 
-    _wavesBetweenCountUp: float = 10
-    _wavesSinceLastCount: int = 0
+    _wavesBetweenCountUp: float = 10 #Controls the waves (for  the first time) until there is a new enemy per wave.
+    _wavesSinceLastCount: int = 0 #Controls how many waves have gone  past since it has made more enemies spawn.
 
     _score: int = 0
     _highScore: int = 0

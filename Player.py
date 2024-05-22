@@ -55,7 +55,6 @@ class Player:
                 self.posY -= self._startSpeed * deltaTime
                 if self._startSpeed < 0:
                     self._startSpeed = 0
-                print(self._startSpeed)
                 if (self.posY < Window.WINDOW._actualHeight - 50):
                     self.inStartAnim = False
             DrawSprite(self.PlaneType, self.posX-LoadSprite(self.PlaneType).get_width()/2, self.posY-LoadSprite(self.PlaneType).get_height()/2)
