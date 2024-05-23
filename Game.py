@@ -37,10 +37,22 @@ class Game:
 
     _showDebug: bool = False
 
-    _startWaveTime: int = 7
-    _scaling: float = 115
+    #Improved wave spawning variables. Controls alot about the wave spawning.
+    _startWaveTime: int = 7 #How fast the waves are at the start of the game.
+    
+    _scaling: float = 115 #Dont worry about this, higher number will make the waves times decrease slower.
+
     _timeBetweenWaves: float = _startWaveTime
-    _stopScalingAt: float = 1.8
+
+    _stopScalingAt: float = 1.5 #This is the FASTEST waves can spawn. Increase/decrease to change.
+
+
+    _colEnemyChance: float = 1 #When rolling one in 10 to choose enemy, checks if it is equal to or smaller than this number. Increase to change spawn odds.
+    _maxColChance: int = 3 #The max percentage change of a collision enemy (chance = var * 10, so if its 3, theres a 30% chance.)
+
+
+    _wavesBetweenCountUp: float = 10 #Controls the waves (for  the first time) until there is a new enemy per wave.
+    _wavesSinceLastCount: int = 0 #Controls how many waves have gone  past since it has made more enemies spawn.
 
     _score: int = 0
     _highScore: int = 0
@@ -123,7 +135,7 @@ class Game:
 
         if self._waveTime <= 0:
             for i in range(round(rand()) * (self._maxEnemiesPerWave - self._minEnemiesPerWave) + self._minEnemiesPerWave):
-                if round(rand() * 10) == 1 and self._wave > 3:
+                if round(rand() * 10) <= self._colEnemyChance and self._wave > 3:
                     self._collisionEnemies.append(CollisionEnemy(rand() * 200, rand() * -100))
                 else:
                     self._enemies.append(Enemy(rand() * 200, rand() * -100))
@@ -135,6 +147,19 @@ class Game:
                 else:
                     self._waveTime = self._stopScalingAt
             self._timeBetweenWaves = self._waveTime
+            self._wavesSinceLastCount += 1
+
+            if self._wavesSinceLastCount >= self._wavesBetweenCountUp:
+                self._maxEnemiesPerWave += 1
+                self._minEnemiesPerWave += 1
+                self._wavesBetweenCountUp *= 1.5
+                self._wavesSinceLastCount = 0
+
+            if self._colEnemyChance < self._maxColChance:
+                self._colEnemyChance = self._wave / 10
+            else:
+                self._colEnemyChance = self._maxColChance
+
             
             #Wave = WAVES[round(rand()*(len(WAVES) - 1))]
             #print(Wave)

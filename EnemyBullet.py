@@ -9,7 +9,7 @@ class EnemyBullet:
     posX = 0
     posY = 0
     rot = 0
-    speed = 240
+    speed = 200
 
     def __init__(self, x: int, y: int) -> None:
         self.posX = x
