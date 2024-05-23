@@ -6,6 +6,8 @@ from Body import *
 
 from Game import *
 
+from SpriteRegistry import *
+
 class Window:
 
     _display = None
@@ -41,6 +43,8 @@ class Window:
     def Create(self):
         pg.init()
         self._display = pg.display.set_mode((self._width, self._height))
+
+        pg.display.set_icon(pg.image.load("./assets/initial_logo.png"))
         pg.display.set_caption(self._title)
 
         self.clock = pg.time.Clock()
@@ -81,10 +85,9 @@ class Window:
 
             self.clock.tick(60)
 
-        self._game.End();
+        self._game.End()
 
         pg.quit()
-        quit()
 
     
 

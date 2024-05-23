@@ -15,10 +15,41 @@ from Text import *
 from math import floor
 from Program import app_folder
 import os
+import math
+
+def generate_circle_points(radius, num_points):
+    """
+    Generates a set of points evenly spaced on a circle.
+
+    :param radius: The radius of the circle.
+    :param num_points: The number of points to generate.
+    :return: A list of tuples representing the points on the circle.
+    """
+    points = []
+    angle_increment = 2 * math.pi / num_points
+    
+    for i in range(num_points):
+        angle = i * angle_increment
+        x = radius * math.cos(angle)
+        y = radius * math.sin(angle)
+        points.append((x, y))
+    
+    return points
+
+def MakeBulletCircle(x: int, y: int, amount: int):
+    bulletDirs = generate_circle_points(1, amount)
+    for dir in bulletDirs:
+        bullet = EnemyBullet(x, y)
+        bullet.speedX = dir[0] * 200
+        bullet.speedY = dir[1] * 200
+        Window.WINDOW._game._enemyBullets.append(bullet)
+    pass
+
 
 class Game:
 
     _background: Background = None
+
     _explosions = []
     _bullets = []
     _enemies = []
@@ -69,6 +100,11 @@ class Game:
     _wave = 0
 
     _Muted: bool = False
+
+    _debugY: int = 0
+    def DrawDebugText(self, text: str, color = (255, 255, 255)) -> None:
+        DrawText(text, 0, self._debugY, color)
+        self._debugY += GetTextHeight(text)
 
     def __init__(self) -> None:
         global GAME
@@ -135,11 +171,14 @@ class Game:
         if Input.GetKeyDown(pg.K_f):
             self._boss = Boss(30, -70)
 
+        mousePos = pg.mouse.get_pos()
+
+        if Input.GetKeyDown(pg.K_v):
+            MakeBulletCircle(mousePos[0] / 2, mousePos[1] / 2, 25)
 
         self._background.draw(deltaTime, time)
         
 
-        mousePos = pg.mouse.get_pos()
 
         if self._waveTime <= 0:
             for i in range(round(rand()) * (self._maxEnemiesPerWave - self._minEnemiesPerWave) + self._minEnemiesPerWave):
@@ -271,33 +310,48 @@ class Game:
         if self._score > self._highScore:
             self._highScore = self._score
         
-        y = 0
+        self._debugY = 0
         
 
         if self._showDebug:
-            DrawText("SCORE: " + str(self._score), 0, y, (255, 255, 255))
-            y += GetTextHeight("SCORE: " + str(self._score))
-            DrawText("HIGH SCORE: " + str(self._highScore), 0, y, (255, 255, 255))
-            y += GetTextHeight("HIGH SCORE: " + str(self._highScore))
-            DrawText("WAVE TIME: " + str(round(self._waveTime, 2)), 0, y, (255, 255, 255))
-            y +=  + GetTextHeight("WAVE TIME: " + str(round(self._waveTime, 2)))
-            DrawText("X: " + str(floor(self._player.posX)), 0, y, (255, 255, 255))
-            DrawText("Y: " + str(floor(self._player.posY)), 0 + GetTextWidth("X: 999"), y, (255, 255, 255))
-            y += GetTextHeight("X: " + str(floor(self._player.posX)) + "Y: " + str(floor(self._player.posY)))
-            DrawText("ENEMY COUNT: " + str(len(self._enemies)), 0, y, (255, 255, 255))
-            y += GetTextHeight("ENEMY COUNT: " + str(len(self._enemies)))
-            DrawText("GOD MODE: " + str(self._player._godmode), 0, y, (255, 255, 255))
-            y += GetTextHeight("GOD MODE: " + str(self._player._godmode))
-            DrawText("WAVE: " + str(self._wave), 0, y, (255, 255, 255))
-            y += GetTextHeight("WAVE: " + str(self._wave))
+            
+
+            self.DrawDebugText("SCORE: " + str(self._score), (255, 255, 255))
+            
+            self.DrawDebugText("HIGH SCORE: " + str(self._highScore), (255, 255, 255))
+
+            
+            self.DrawDebugText("WAVE TIME: " + str(round(self._waveTime, 2)), (255, 255, 255))
+
+            DrawText("X: " + str(floor(self._player.posX)), 0, self._debugY, (0, 0, 255))
+            DrawText("Y: " + str(floor(self._player.posY)), 0 + GetTextWidth("X: 999"), self._debugY, (0, 0, 255))
+            self._debugY += GetTextHeight("X: " + str(floor(self._player.posX)) + "Y: " + str(floor(self._player.posY)))
+            
+
+            self.DrawDebugText("ENEMY COUNT: " + str(len(self._enemies)), (255, 255, 255))
+            
+            
+            self.DrawDebugText("ENEMY BULLET NUM: " + str(len(self._enemyBullets)), (255, 255, 255))
+            self.DrawDebugText("PLAYER BULLET NUM: " + str(len(self._bullets)), (255, 255, 255))
+
+
+            if self._player._godmode:
+                self.DrawDebugText("GOD MODE: TRUE", (0, 255, 0))
+
+            else:
+                self.DrawDebugText("GOD MODE: FALSE", (255, 0, 0))
+
+            self.DrawDebugText("WAVE: " + str(self._wave), (255, 255, 255))
+
 
             totalWaveTime = self._timeBetweenWaves
-
-            DrawText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), 0, y, (255, 255, 255))
-            y +=  + GetTextHeight("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)))
+            self.DrawDebugText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), (255, 255, 255))
+            self.DrawDebugText("FPS: " + str(round(Window.WINDOW.clock.get_fps(), 1)), (255, 0, 0))
 
         
         return
+    
+    
     
     def End(self):
         
