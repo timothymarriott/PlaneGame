@@ -8,8 +8,8 @@ class EnemyBullet:
 
     posX = 0
     posY = 0
-    rot = 0
-    speed = 200
+    speedX = 0
+    speedY = 200
 
     def __init__(self, x: int, y: int) -> None:
         self.posX = x
@@ -20,9 +20,15 @@ class EnemyBullet:
         
         if self.posY > Window.WINDOW._actualHeight and self in Window.WINDOW._game._enemyBullets:
             Window.WINDOW._game._enemyBullets.remove(self)
+        if self.posY < 0 and self in Window.WINDOW._game._enemyBullets:
+            Window.WINDOW._game._enemyBullets.remove(self)
+        if self.posX > Window.WINDOW._actualWidth and self in Window.WINDOW._game._enemyBullets:
+            Window.WINDOW._game._enemyBullets.remove(self)
+        if self.posX < 0 and self in Window.WINDOW._game._enemyBullets:
+            Window.WINDOW._game._enemyBullets.remove(self)
 
-        self.posY += deltaTime * self.speed
-        self.posX += self.rot / 35
+        self.posY += deltaTime * self.speedY
+        self.posX += deltaTime * self.speedX
 
         DrawSprite("bullet", self.posX + 7, self.posY)
 

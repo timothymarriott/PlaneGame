@@ -2,6 +2,8 @@ from Input import Input
 import pygame as pg
 from SpriteRegistry import *
 import Window
+import math
+
 
 
 class Bullet:
