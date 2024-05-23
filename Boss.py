@@ -6,6 +6,7 @@ from math import sqrt
 from EnemyBullet import EnemyBullet
 from Explosion import  Explosion
 from random import random as rand
+import Game as Game
 import math
 
 class Boss:
@@ -15,7 +16,7 @@ class Boss:
     distanceToPlayerY = 100
     distanceToPlayer = 100
 
-    health = 50 #amount of times u need to shoot the boss before death
+    health = 250 #amount of times u need to shoot the boss before death
 
     shootTimer = 0
     timeUntilShot = 4
@@ -23,8 +24,8 @@ class Boss:
     amountOfAttacks = 2
     choseStuff = False
 
-    minTimeUntilShot = 6
-    maxTimeUntilShot = 12
+    minTimeUntilShot = 3
+    maxTimeUntilShot = 4.5
 
     #next boss attack is the next type of attack the boss will do
     #0 is the average shot and 1  is a big boom, shooting bullets in every direction.
@@ -50,8 +51,9 @@ class Boss:
             Window.WINDOW._game._boss = None
 
         if self.shootTimer >= self.timeUntilShot:
+            yOffsetDown = 60
             if self.nextBossAttack == 0:
-                yOffsetDown = 60
+                
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY + yOffsetDown))
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 10, self.posY + yOffsetDown))
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 20, self.posY + yOffsetDown))
@@ -65,7 +67,7 @@ class Boss:
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 140, self.posY + yOffsetDown))
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 150, self.posY + yOffsetDown))
             if self.nextBossAttack == 1:
-                print("supposed to spawn circle attack")
+                Game.MakeBulletCircle(self.posX + 75, self.posY + yOffsetDown, 15)
             self.shootTimer = 0
             self.timeUntilShot = round(rand()) * (self.maxTimeUntilShot - self.minTimeUntilShot) + self.minTimeUntilShot
             self.nextBossAttack = math.ceil(rand() * self.amountOfAttacks -  1)
@@ -75,7 +77,7 @@ class Boss:
         self.distanceToPlayer = sqrt(self.distanceToPlayerX * self.distanceToPlayerX + self.distanceToPlayerY * self.distanceToPlayerY)
 
 
-        if self.distanceToPlayerX < 160 and self.distanceToPlayerY < 200:
+        if self.distanceToPlayerX < 160 and self.distanceToPlayerY < 100:
             #boss collider
             if Window.WINDOW._game._player.doRender != False and not Window.WINDOW._game._player._godmode:
                 Window.WINDOW._game._player.doRender = False

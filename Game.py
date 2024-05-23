@@ -267,15 +267,15 @@ class Game:
                         break
             
             if self._boss  != None:
-                enemy : self._boss
-                colSize = 100
-                if abs(enemy.posX + colSize / 1.25 - bullet.posX) < colSize and abs(bullet.posX - enemy.posX) < colSize:
-                    if abs(enemy.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - enemy.posY) < colSize:
-                        self._explosions.append(Explosion(self._boss.posX, self._boss.posY))
-                        self._boss.health -= 1
-                        self._bullets.remove(bullet)
-                        self._score += 2
-                        break
+                colSize = 75
+                if abs(self._boss.posX / 1.25 - bullet.posX) < colSize or bullet.posX > self._boss.posX * 3:
+                    if bullet.posX < 200:
+                        if abs(self._boss.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - self._boss.posY) < colSize:
+                            self._explosions.append(Explosion(bullet.posX, bullet.posY))
+                            self._boss.health -= 1
+                            self._bullets.remove(bullet)
+                            self._score += 2
+                            break
 
 
             bullet.draw(deltaTime, time)
