@@ -14,7 +14,6 @@ from Text import *
 from math import floor
 from Program import app_folder
 import os
-import Leaderboard
 
 class Game:
 

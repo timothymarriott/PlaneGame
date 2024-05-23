@@ -3,7 +3,6 @@ import pygame as pg
 from SpriteRegistry import *
 import Window
 from Text import *
-import Leaderboard
 
 class Player:
 
