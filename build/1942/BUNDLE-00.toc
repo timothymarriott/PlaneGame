@@ -1,3 +1,0 @@
-([('1942',
-   '/Users/timothymarriott/Documents/Development/School/Python/PlaneGame/PlaneGame/dist/1942',
-   'EXECUTABLE')],)
