@@ -37,6 +37,9 @@ class Pow:
                 Window.WINDOW._game._powerUps.remove(self)
                 
                 
+        if self.posY > Window.WINDOW._actualHeight:
+            if self in Window.WINDOW._game._powerUps:
+                Window.WINDOW._game._powerUps.remove(self)
 
 
         pass
