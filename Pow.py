@@ -28,8 +28,14 @@ class Pow:
 
         self.posY += 25 * deltaTime
 
-        if self.distanceToPlayer < 10:
-           print("Spaghetti")
+        if self.distanceToPlayer < 25:
+            print("Spaghetti")
+            Window.WINDOW._game._pow = True
+            Window.WINDOW._game._powTime = 0
+        
+            if self in Window.WINDOW._game._powerUps:
+                Window.WINDOW._game._powerUps.remove(self)
+                
                 
         if self.posY > Window.WINDOW._actualHeight:
             if self in Window.WINDOW._game._powerUps:
