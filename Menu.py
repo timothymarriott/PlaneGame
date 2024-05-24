@@ -68,6 +68,9 @@ class Menu:
                         Window.WINDOW._game._player.PlayStartAnim()
                         Window.WINDOW._game._lastHighscore = Window.WINDOW._game._highScore
                         Window.WINDOW._game._boss = None
+                        Window.WINDOW._game._powerUps.clear()
+                        Window.WINDOW._game._pow = False
+                        Window.WINDOW._game._powTime = 0
                         Window.WINDOW._game._SkipMenu = True
                         
                 else:
