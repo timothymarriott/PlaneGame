@@ -10,6 +10,7 @@ from CollisionEnemy import CollisionEnemy
 from EnemyBullet import EnemyBullet
 from random import random as rand
 from Menu import Menu
+from Boss import Boss
 from Text import *
 from math import floor
 from Program import app_folder
@@ -54,6 +55,7 @@ class Game:
     _enemies = []
     _enemyBullets = []
     _collisionEnemies = []
+    _boss = None
 
     _player: Player = None
 
@@ -76,6 +78,9 @@ class Game:
     _timeBetweenWaves: float = _startWaveTime
 
     _stopScalingAt: float = 1.5 #This is the FASTEST waves can spawn. Increase/decrease to change.
+
+    _spawnWaves: bool = True
+    _decreaseWaveTime: bool = True
 
 
     _colEnemyChance: float = 1 #When rolling one in 10 to choose enemy, checks if it is equal to or smaller than this number. Increase to change spawn odds.
@@ -112,6 +117,7 @@ class Game:
         self._player = Player()
         self._menu = Menu()
         self._menu.Start()
+        RegisterSprite("boss", "Planes/BigBoss.png")
         RegisterSprite("Explosion/0", "Explosion/frame1.png")
         RegisterSprite("Explosion/1", "Explosion/frame2.png")
         RegisterSprite("Explosion/2", "Explosion/frame3.png")
@@ -162,6 +168,8 @@ class Game:
             self._showDebug = not self._showDebug
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
+        if Input.GetKeyDown(pg.K_f):
+            self._boss = Boss(30, -70)
 
         mousePos = pg.mouse.get_pos()
 
@@ -181,10 +189,13 @@ class Game:
             self._wave += 1
             self._waveTime = self._startWaveTime
             for i in range(self._wave):
-                if self._timeBetweenWaves > self._stopScalingAt:
-                    self._waveTime *= 1 - (self._waveTime) / self._scaling
+                if self._decreaseWaveTime:
+                    if self._timeBetweenWaves > self._stopScalingAt:
+                        self._waveTime *= 1 - (self._waveTime) / self._scaling
+                    else:
+                        self._waveTime = self._stopScalingAt
                 else:
-                    self._waveTime = self._stopScalingAt
+                    self._waveTime = self._timeBetweenWaves
             self._timeBetweenWaves = self._waveTime
             self._wavesSinceLastCount += 1
 
@@ -206,8 +217,8 @@ class Game:
             #    self._enemies.append(Enemy(Window.WINDOW._actualWidth / 2 + plane[0] * 75, plane[1] * 75 - 100))
 
         
-
-        self._waveTime -= deltaTime
+        if self._spawnWaves:
+            self._waveTime -= deltaTime
 
         if Input.GetKeyDown(pg.K_SPACE):
             if self._player.doRender == True:
@@ -218,6 +229,9 @@ class Game:
                     self._shotcount += 1
                     self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
                     self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
+
+        if self._boss != None:
+            self._boss.draw(deltaTime, time)
 
         self._cooldown -= deltaTime
 
@@ -230,7 +244,6 @@ class Game:
 
         for bullet in self._bullets:
             bullet: Bullet
-
 
             for enemy in self._enemies:
                 enemy: Enemy
@@ -252,6 +265,17 @@ class Game:
                         self._bullets.remove(bullet)
                         self._score += 10
                         break
+            
+            if self._boss  != None:
+                colSize = 75
+                if abs(self._boss.posX / 1.25 - bullet.posX) < colSize or bullet.posX > self._boss.posX * 3:
+                    if bullet.posX < 200:
+                        if abs(self._boss.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - self._boss.posY) < colSize:
+                            self._explosions.append(Explosion(bullet.posX, bullet.posY))
+                            self._boss.health -= 1
+                            self._bullets.remove(bullet)
+                            self._score += 2
+                            break
 
 
             bullet.draw(deltaTime, time)
