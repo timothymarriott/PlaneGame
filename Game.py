@@ -15,6 +15,7 @@ from Text import *
 from math import floor
 from Program import app_folder
 from Pow import Pow
+from math import sqrt
 import os
 import math
 
@@ -298,15 +299,22 @@ class Game:
             
             if self._boss  != None:
                 colSize = 75
-                if abs(self._boss.posX / 1.25 - bullet.posX) < colSize or bullet.posX > self._boss.posX * 3:
-                    if bullet.posX < 200:
-                        if abs(self._boss.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - self._boss.posY) < colSize:
-                            self._explosions.append(Explosion(bullet.posX, bullet.posY))
-                            self._boss.health -= 1
-                            if bullet in self._bullets:
-                                self._bullets.remove(bullet)
-                            self._score += 2
-                            break
+                distanceToPlayerX = 100
+                distanceToPlayerY = 100
+                distanceToBoss = 100
+
+                distanceToPlayerX = abs(self._boss.posX + 80 - bullet.posX)
+                distanceToPlayerY = abs(self._boss.posY + 10 - bullet.posY)
+                distanceToBoss = sqrt(distanceToPlayerX * distanceToPlayerX + distanceToPlayerY * distanceToPlayerY)
+                if distanceToBoss < 70:
+                    self._explosions.append(Explosion(bullet.posX, bullet.posY))
+                    self._boss.health -= 1
+                    if bullet in self._bullets:
+                        self._bullets.remove(bullet)
+                    self._score += 2
+                    break
+                            
+                        
 
 
             bullet.draw(deltaTime, time)

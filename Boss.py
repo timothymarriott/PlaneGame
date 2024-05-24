@@ -134,46 +134,50 @@ class Boss:
         if self.bossAliveTimer > 2 and self.move == False:
             self.move = True
 
+        '''
         if self.move == True:
 
             #if move spot is 0, go to center, move spot is 1, go to right, move spot 2, go right.
             if self.setMovement == False:
                 self.moveDir = round(rand() * 3)
                 self.setMovement = True
-                if self.moveDir < 1:
-                    if self.posX < 100:
+                
+                if self.moveDir < 1 and self.moveDir > 0:
+                    if not self.posX + 80 < 150:
                         self.moveDir = 15
                         self.moveSpot = 2
                     else:
-                        self.moveDir = 1
+                        self.moveDir = 1.5
                 if self.moveDir <= 3 and self.moveDir > 2:
-                    if self.posX < 100:
+                    if not self.posX + 80 > 80:
                         self.moveDir = -15
                         self.moveSpot = 1
                     else:
-                        self.moveDir = 1
-                if self.moveDir < 2:
-                    if self.posX < 100:
+                        self.moveDir = 1.5
+                if self.moveDir < 2 and self.moveDir > 1:
+                    if self.posX + 80 < 110:
                         self.moveDir = 15
-                    if self.posX >= 100:
+                    if self.posX + 80  >= 115:
                         self.moveDir = -15
                         self.moveSpot = 0
             
             if self.moveSpot == 0:
-                if self.posX > 15 and self.posX < 15:
-                    self.posX += self.moveDir * deltaTime
-                else:
+                if self.posX + 80 > 120 and self.posX + 80 < 125:
                     self.setMovement = False
+                else:
+                    self.posX += self.moveDir * deltaTime
             if self.moveSpot == 2:
-                if self.posX > 50:
-                    self.posX += self.moveDir * deltaTime
-                else:
+                if self.posX + 80 > 150:
                     self.setMovement = False
+                else:
+                     self.posX += self.moveDir * deltaTime
             if self.moveSpot == 1:
-                if self.posX < 15:
-                    self.posX += self.moveDir * deltaTime
-                else:
+                if self.posX + 80 < 100:
                     self.setMovement = False
+                else:
+                    self.posX += self.moveDir * deltaTime
+                    
+        '''
 
 
         if self.distanceToPlayerX < 160 and self.distanceToPlayerY < 100:
