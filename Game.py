@@ -388,7 +388,7 @@ class Game:
             self.DrawDebugText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), (255, 255, 255))
             self.DrawDebugText("FPS: " + str(round(Window.WINDOW.clock.get_fps(), 1)), (255, 0, 0))
             self.DrawDebugText("POW COUNT: " + str(len(self._powerUps)), (255, 255, 255))
-            #self.DrawDebugText("POW COUNT: " + str(len(self._powTime)), (255, 255, 255))
+            self.DrawDebugText("POW TIME: " + str(round(self._powTime, 2)), (255, 255, 255))
 
             if self._boss != None:
                 self.DrawDebugText(" ", (255, 255, 255))
