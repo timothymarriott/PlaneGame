@@ -61,15 +61,19 @@ class Player:
         else:
             self.deathTimer += deltaTime
             DrawText("GAME OVER", Window.WINDOW._actualWidth / 2 - GetTextWidth("GAME OVER") / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("GAME OVER") / 2, (255, 0, 0))
-            if Window.WINDOW._game._score > Window.WINDOW._game._lastHighscore:
+            if Window.WINDOW._game._EnteredGodMode:
+                DrawText("GODMODE USED", Window.WINDOW._actualWidth / 2 - GetTextWidth("GODMODE USED") / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("GODMODE USED") / 2 + GetTextHeight("GAME OVER"), (255, 255, 255))
+            elif Window.WINDOW._game._score > Window.WINDOW._game._lastHighscore:
                 
                 DrawText("SCORE: " + str(Window.WINDOW._game._score), Window.WINDOW._actualWidth / 2 - GetTextWidth("SCORE: " + str(Window.WINDOW._game._score)) / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("SCORE: " + str(Window.WINDOW._game._score)) / 2 + GetTextHeight("GAME OVER"), (255, 255, 0))
             else:
                 DrawText("SCORE: " + str(Window.WINDOW._game._score), Window.WINDOW._actualWidth / 2 - GetTextWidth("SCORE: " + str(Window.WINDOW._game._score)) / 2, Window.WINDOW._actualHeight / 2 - GetTextHeight("SCORE: " + str(Window.WINDOW._game._score)) / 2 + GetTextHeight("GAME OVER"), (255, 255, 255))
             
+
             if self.deathTimer > 1.5:
                 Window.WINDOW._game._menu.Reset()
                 Window.WINDOW._game._SkipMenu = False
+                Window.WINDOW._game._EnteredGodMode = False
 
     def PlayStartAnim(self):
         self.posX = Window.WINDOW._actualWidth / 2

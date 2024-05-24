@@ -10,20 +10,53 @@ from CollisionEnemy import CollisionEnemy
 from EnemyBullet import EnemyBullet
 from random import random as rand
 from Menu import Menu
+from Boss import Boss
 from Text import *
 from math import floor
 from Program import app_folder
 from Pow import Pow
 import os
+import math
+
+def generate_circle_points(radius, num_points):
+    """
+    Generates a set of points evenly spaced on a circle.
+
+    :param radius: The radius of the circle.
+    :param num_points: The number of points to generate.
+    :return: A list of tuples representing the points on the circle.
+    """
+    points = []
+    angle_increment = 2 * math.pi / num_points
+    
+    for i in range(num_points):
+        angle = i * angle_increment
+        x = radius * math.cos(angle)
+        y = radius * math.sin(angle)
+        points.append((x, y))
+    
+    return points
+
+def MakeBulletCircle(x: int, y: int, amount: int):
+    bulletDirs = generate_circle_points(1, amount)
+    for dir in bulletDirs:
+        bullet = EnemyBullet(x, y)
+        bullet.speedX = dir[0] * 200
+        bullet.speedY = dir[1] * 200
+        Window.WINDOW._game._enemyBullets.append(bullet)
+    pass
+
 
 class Game:
 
     _background: Background = None
+
     _explosions = []
     _bullets = []
     _enemies = []
     _enemyBullets = []
     _collisionEnemies = []
+    _boss = None
     _powerUps = []
 
     _player: Player = None
@@ -48,6 +81,9 @@ class Game:
 
     _stopScalingAt: float = 1.5 #This is the FASTEST waves can spawn. Increase/decrease to change.
 
+    _spawnWaves: bool = True
+    _decreaseWaveTime: bool = True
+
 
     _colEnemyChance: float = 1 #When rolling one in 10 to choose enemy, checks if it is equal to or smaller than this number. Increase to change spawn odds.
     _maxColChance: int = 3 #The max percentage change of a collision enemy (chance = var * 10, so if its 3, theres a 30% chance.)
@@ -69,6 +105,15 @@ class Game:
 
     _pow: bool = False
 
+    _pow: bool = False
+
+    _EnteredGodMode = False
+
+    _debugY: int = 0
+    def DrawDebugText(self, text: str, color = (255, 255, 255)) -> None:
+        DrawText(text, 0, self._debugY, color)
+        self._debugY += GetTextHeight(text)
+
     def __init__(self) -> None:
         global GAME
         GAME = self
@@ -80,6 +125,7 @@ class Game:
         self._player = Player()
         self._menu = Menu()
         self._menu.Start()
+        RegisterSprite("boss", "Planes/BigBoss.png")
         RegisterSprite("Explosion/0", "Explosion/frame1.png")
         RegisterSprite("Explosion/1", "Explosion/frame2.png")
         RegisterSprite("Explosion/2", "Explosion/frame3.png")
@@ -128,17 +174,26 @@ class Game:
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
             self._SkipMenu = False
+            Window.WINDOW._game._EnteredGodMode = False
 
         if Input.GetKeyDown(pg.K_z):
             self._showDebug = not self._showDebug
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
+        if self._player._godmode:
+            self._EnteredGodMode = True
+        if Input.GetKeyDown(pg.K_f):
+            self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
 
+        mousePos = pg.mouse.get_pos()
+
+        if Input.GetKeyDown(pg.K_v):
+            MakeBulletCircle(mousePos[0] / 2, mousePos[1] / 2, 25)
 
         self._background.draw(deltaTime, time)
         
 
-        mousePos = pg.mouse.get_pos()
+
 
         if self._waveTime <= 0:
             for i in range(round(rand()) * (self._maxEnemiesPerWave - self._minEnemiesPerWave) + self._minEnemiesPerWave):
@@ -149,10 +204,13 @@ class Game:
             self._wave += 1
             self._waveTime = self._startWaveTime
             for i in range(self._wave):
-                if self._timeBetweenWaves > self._stopScalingAt:
-                    self._waveTime *= 1 - (self._waveTime) / self._scaling
+                if self._decreaseWaveTime:
+                    if self._timeBetweenWaves > self._stopScalingAt:
+                        self._waveTime *= 1 - (self._waveTime) / self._scaling
+                    else:
+                        self._waveTime = self._stopScalingAt
                 else:
-                    self._waveTime = self._stopScalingAt
+                    self._waveTime = self._timeBetweenWaves
             self._timeBetweenWaves = self._waveTime
             self._wavesSinceLastCount += 1
 
@@ -178,8 +236,8 @@ class Game:
                 self._pow = False
             if self._pow == False:
                 self._pow = True
-
-        self._waveTime -= deltaTime
+        if self._spawnWaves:
+            self._waveTime -= deltaTime
         #Player Bullet Stuff
         if Input.GetKeyDown(pg.K_SPACE):
             if self._player.doRender == True:
@@ -196,6 +254,9 @@ class Game:
                     else:
                         self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
                         self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
+        if self._boss != None:
+            self._boss.draw(deltaTime, time)
+
         self._cooldown -= deltaTime
 
         for explosion in self._explosions:
@@ -207,7 +268,6 @@ class Game:
 
         for bullet in self._bullets:
             bullet: Bullet
-
             #Where the enemies get killed
             for enemy in self._enemies:
                 enemy: Enemy
@@ -233,6 +293,17 @@ class Game:
                         self._bullets.remove(bullet)
                         self._score += 10
                         break
+            
+            if self._boss  != None:
+                colSize = 75
+                if abs(self._boss.posX / 1.25 - bullet.posX) < colSize or bullet.posX > self._boss.posX * 3:
+                    if bullet.posX < 200:
+                        if abs(self._boss.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - self._boss.posY) < colSize:
+                            self._explosions.append(Explosion(bullet.posX, bullet.posY))
+                            self._boss.health -= 1
+                            self._bullets.remove(bullet)
+                            self._score += 2
+                            break
 
 
             bullet.draw(deltaTime, time)
@@ -267,37 +338,62 @@ class Game:
             collisionEnemy.draw(deltaTime, time)
 
         self._player.draw( deltaTime, time)
+
+
+        if not self._EnteredGodMode:
         
-        if self._score > self._highScore:
-            self._highScore = self._score
+            if self._score > self._highScore:
+                self._highScore = self._score
+        else:
+            self._score = 0
         
-        y = 0
+        self._debugY = 0
         
 
         if self._showDebug:
-            DrawText("SCORE: " + str(self._score), 0, y, (255, 255, 255))
-            y += GetTextHeight("SCORE: " + str(self._score))
-            DrawText("HIGH SCORE: " + str(self._highScore), 0, y, (255, 255, 255))
-            y += GetTextHeight("HIGH SCORE: " + str(self._highScore))
-            DrawText("WAVE TIME: " + str(round(self._waveTime, 2)), 0, y, (255, 255, 255))
-            y +=  + GetTextHeight("WAVE TIME: " + str(round(self._waveTime, 2)))
-            DrawText("X: " + str(floor(self._player.posX)), 0, y, (255, 255, 255))
-            DrawText("Y: " + str(floor(self._player.posY)), 0 + GetTextWidth("X: 999"), y, (255, 255, 255))
-            y += GetTextHeight("X: " + str(floor(self._player.posX)) + "Y: " + str(floor(self._player.posY)))
-            DrawText("ENEMY COUNT: " + str(len(self._enemies)), 0, y, (255, 255, 255))
-            y += GetTextHeight("ENEMY COUNT: " + str(len(self._enemies)))
-            DrawText("GOD MODE: " + str(self._player._godmode), 0, y, (255, 255, 255))
-            y += GetTextHeight("GOD MODE: " + str(self._player._godmode))
-            DrawText("WAVE: " + str(self._wave), 0, y, (255, 255, 255))
-            y += GetTextHeight("WAVE: " + str(self._wave))
+            
+
+            self.DrawDebugText("SCORE: " + str(self._score), (255, 255, 255))
+            
+            self.DrawDebugText("HIGH SCORE: " + str(self._highScore), (255, 255, 255))
+
+            
+            self.DrawDebugText("WAVE TIME: " + str(round(self._waveTime, 2)), (255, 255, 255))
+
+            DrawText("X: " + str(floor(self._player.posX)), 0, self._debugY, (0, 0, 255))
+            DrawText("Y: " + str(floor(self._player.posY)), 0 + GetTextWidth("X: 999"), self._debugY, (0, 0, 255))
+            self._debugY += GetTextHeight("X: " + str(floor(self._player.posX)) + "Y: " + str(floor(self._player.posY)))
+            
+
+            self.DrawDebugText("ENEMY COUNT: " + str(len(self._enemies)), (255, 255, 255))
+            
+            
+            self.DrawDebugText("ENEMY BULLET NUM: " + str(len(self._enemyBullets)), (255, 255, 255))
+            self.DrawDebugText("PLAYER BULLET NUM: " + str(len(self._bullets)), (255, 255, 255))
+
+
+            if self._player._godmode:
+                self.DrawDebugText("GOD MODE: TRUE", (0, 255, 0))
+
+            else:
+                self.DrawDebugText("GOD MODE: FALSE", (255, 0, 0))
+
+            self.DrawDebugText("WAVE: " + str(self._wave), (255, 255, 255))
+
 
             totalWaveTime = self._timeBetweenWaves
+            self.DrawDebugText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), (255, 255, 255))
+            self.DrawDebugText("FPS: " + str(round(Window.WINDOW.clock.get_fps(), 1)), (255, 0, 0))
 
-            DrawText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), 0, y, (255, 255, 255))
-            y +=  + GetTextHeight("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)))
+            if self._boss != None:
+                self.DrawDebugText(" ", (255, 255, 255))
+                self.DrawDebugText("BOSS", (255, 255, 255))
+                self.DrawDebugText("HEALTH: " + str(self._boss.health), (255, 255, 255))
 
         
         return
+    
+    
     
     def End(self):
         
