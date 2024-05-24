@@ -252,7 +252,8 @@ class Game:
                     if abs(enemy.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - enemy.posY) < colSize:
                         self._explosions.append(Explosion(enemy.posX, enemy.posY))
                         self._enemies.remove(enemy)
-                        self._bullets.remove(bullet)
+                        if bullet in self._bullets:
+                            self._bullets.remove(bullet)
                         self._score += 10
                         break
             for enemy in self._collisionEnemies:
@@ -262,7 +263,8 @@ class Game:
                     if abs(enemy.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - enemy.posY) < colSize:
                         self._explosions.append(Explosion(enemy.posX, enemy.posY))
                         self._collisionEnemies.remove(enemy)
-                        self._bullets.remove(bullet)
+                        if bullet in self._bullets:
+                            self._bullets.remove(bullet)
                         self._score += 10
                         break
             
@@ -273,7 +275,8 @@ class Game:
                         if abs(self._boss.posY + colSize / 1.25 - bullet.posY) < colSize and abs(bullet.posY - self._boss.posY) < colSize:
                             self._explosions.append(Explosion(bullet.posX, bullet.posY))
                             self._boss.health -= 1
-                            self._bullets.remove(bullet)
+                            if bullet in self._bullets:
+                                self._bullets.remove(bullet)
                             self._score += 2
                             break
 
