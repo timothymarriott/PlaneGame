@@ -65,9 +65,10 @@ class Menu:
                         Window.WINDOW._game._score = 0
                         Window.WINDOW._game._waveTime = 2
                         Window.WINDOW._game._wave = 0
-                        Window.WINDOW._game._SkipMenu = True
                         Window.WINDOW._game._player.PlayStartAnim()
                         Window.WINDOW._game._lastHighscore = Window.WINDOW._game._highScore
+                        Window.WINDOW._game._boss = None
+                        Window.WINDOW._game._SkipMenu = True
                         
                 else:
                     DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 255))

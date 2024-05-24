@@ -44,7 +44,10 @@ def GetTextWidth(text) -> int:
 
 def GetTextHeight(text) -> int:
     
-    height = LoadSprite("Character/" + text[0]).get_height()
+    if text[0] == " ":
+        height = LoadSprite("Character/A").get_height()
+    else:
+        height = LoadSprite("Character/" + text[0]).get_height()
     return height
 
 

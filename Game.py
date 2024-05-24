@@ -14,6 +14,7 @@ from Boss import Boss
 from Text import *
 from math import floor
 from Program import app_folder
+from Pow import Pow
 import os
 import math
 
@@ -56,6 +57,7 @@ class Game:
     _enemyBullets = []
     _collisionEnemies = []
     _boss = None
+    _powerUps = []
 
     _player: Player = None
 
@@ -101,6 +103,12 @@ class Game:
 
     _Muted: bool = False
 
+    _pow: bool = False
+
+    _pow: bool = False
+
+    _EnteredGodMode = False
+
     _debugY: int = 0
     def DrawDebugText(self, text: str, color = (255, 255, 255)) -> None:
         DrawText(text, 0, self._debugY, color)
@@ -127,9 +135,12 @@ class Game:
         RegisterSprite("bullet", "Bullet.png")
         RegisterSprite("defaultEnemy", "smallGreenPlane.png")
         RegisterSprite("collideEnemy", "FatGreyPlane.png")
+        RegisterSprite("Powerup", "Pow.png")
         LoadChars()
         pg.mixer.music.load("./Assets/music_main.mp3")
         pg.mixer.music.play(-1)
+
+        #Window.WINDOW._game._powerUps.append(Pow(0, 0))
 
         config = os.path.join(app_folder("1942-Remake"), "settings.ini")
         print(app_folder("1942-Remake"))
@@ -163,13 +174,16 @@ class Game:
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
             self._SkipMenu = False
+            Window.WINDOW._game._EnteredGodMode = False
 
         if Input.GetKeyDown(pg.K_z):
             self._showDebug = not self._showDebug
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
+        if self._player._godmode:
+            self._EnteredGodMode = True
         if Input.GetKeyDown(pg.K_f):
-            self._boss = Boss(30, -70)
+            self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
 
         mousePos = pg.mouse.get_pos()
 
@@ -178,6 +192,7 @@ class Game:
 
         self._background.draw(deltaTime, time)
         
+
 
 
         if self._waveTime <= 0:
@@ -216,10 +231,14 @@ class Game:
             #for plane in Wave:
             #    self._enemies.append(Enemy(Window.WINDOW._actualWidth / 2 + plane[0] * 75, plane[1] * 75 - 100))
 
-        
+        if Input.GetKeyDown(pg.K_c):
+            if self._pow ==True:
+                self._pow = False
+            if self._pow == False:
+                self._pow = True
         if self._spawnWaves:
             self._waveTime -= deltaTime
-
+        #Player Bullet Stuff
         if Input.GetKeyDown(pg.K_SPACE):
             if self._player.doRender == True:
                 if self._cooldown <= 0:
@@ -227,9 +246,14 @@ class Game:
                         self._cooldown = 0.2
                         self._shotcount = 0
                     self._shotcount += 1
-                    self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
-                    self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
-
+                    if self._pow == True:
+                        self._bullets.append(Bullet(self._player.posX - 10, self._player.posY))
+                        self._bullets.append(Bullet(self._player.posX - 3, self._player.posY))
+                        self._bullets.append(Bullet(self._player.posX + 3, self._player.posY))
+                        self._bullets.append(Bullet(self._player.posX + 10, self._player.posY))
+                    else:
+                        self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
+                        self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
         if self._boss != None:
             self._boss.draw(deltaTime, time)
 
@@ -244,7 +268,7 @@ class Game:
 
         for bullet in self._bullets:
             bullet: Bullet
-
+            #Where the enemies get killed
             for enemy in self._enemies:
                 enemy: Enemy
                 colSize = 18
@@ -255,6 +279,10 @@ class Game:
                         if bullet in self._bullets:
                             self._bullets.remove(bullet)
                         self._score += 10
+
+                        if rand() * 100 <= 100: #Change this to 5% chance
+                            Window.WINDOW._game._powerUps.append(Pow(enemy.posX, enemy.posY))
+                        #Do here
                         break
             for enemy in self._collisionEnemies:
                 enemy : CollisionEnemy
@@ -300,6 +328,10 @@ class Game:
 
             enemyBullet.draw( deltaTime, time)
 
+        for pow in self._powerUps:
+            pow: Pow
+            pow.draw(deltaTime, time)
+
         for enemy in self._enemies:
             enemy: Enemy
             enemy.draw(deltaTime, time)
@@ -309,9 +341,14 @@ class Game:
             collisionEnemy.draw(deltaTime, time)
 
         self._player.draw( deltaTime, time)
+
+
+        if not self._EnteredGodMode:
         
-        if self._score > self._highScore:
-            self._highScore = self._score
+            if self._score > self._highScore:
+                self._highScore = self._score
+        else:
+            self._score = 0
         
         self._debugY = 0
         
@@ -350,6 +387,11 @@ class Game:
             totalWaveTime = self._timeBetweenWaves
             self.DrawDebugText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), (255, 255, 255))
             self.DrawDebugText("FPS: " + str(round(Window.WINDOW.clock.get_fps(), 1)), (255, 0, 0))
+
+            if self._boss != None:
+                self.DrawDebugText(" ", (255, 255, 255))
+                self.DrawDebugText("BOSS", (255, 255, 255))
+                self.DrawDebugText("HEALTH: " + str(self._boss.health), (255, 255, 255))
 
         
         return
