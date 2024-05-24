@@ -13,6 +13,7 @@ from Menu import Menu
 from Text import *
 from math import floor
 from Program import app_folder
+from Pow import Pow
 import os
 
 class Game:
@@ -23,6 +24,7 @@ class Game:
     _enemies = []
     _enemyBullets = []
     _collisionEnemies = []
+    _powerUps = []
 
     _player: Player = None
 
@@ -65,6 +67,8 @@ class Game:
 
     _Muted: bool = False
 
+    _pow: bool = False
+
     def __init__(self) -> None:
         global GAME
         GAME = self
@@ -85,9 +89,12 @@ class Game:
         RegisterSprite("bullet", "Bullet.png")
         RegisterSprite("defaultEnemy", "smallGreenPlane.png")
         RegisterSprite("collideEnemy", "FatGreyPlane.png")
+        RegisterSprite("Powerup", "Pow.png")
         LoadChars()
         pg.mixer.music.load("./Assets/music_main.mp3")
         pg.mixer.music.play(-1)
+
+        #Window.WINDOW._game._powerUps.append(Pow(0, 0))
 
         config = os.path.join(app_folder("1942-Remake"), "settings.ini")
         print(app_folder("1942-Remake"))
@@ -166,10 +173,14 @@ class Game:
             #for plane in Wave:
             #    self._enemies.append(Enemy(Window.WINDOW._actualWidth / 2 + plane[0] * 75, plane[1] * 75 - 100))
 
-        
+        if Input.GetKeyDown(pg.K_c):
+            if self._pow ==True:
+                self._pow = False
+            if self._pow == False:
+                self._pow = True
 
         self._waveTime -= deltaTime
-
+        #Player Bullet Stuff
         if Input.GetKeyDown(pg.K_SPACE):
             if self._player.doRender == True:
                 if self._cooldown <= 0:
@@ -177,9 +188,14 @@ class Game:
                         self._cooldown = 0.2
                         self._shotcount = 0
                     self._shotcount += 1
-                    self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
-                    self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
-
+                    if self._pow == True:
+                        self._bullets.append(Bullet(self._player.posX - 10, self._player.posY))
+                        self._bullets.append(Bullet(self._player.posX - 3, self._player.posY))
+                        self._bullets.append(Bullet(self._player.posX + 3, self._player.posY))
+                        self._bullets.append(Bullet(self._player.posX + 10, self._player.posY))
+                    else:
+                        self._bullets.append(Bullet(self._player.posX - 5, self._player.posY))
+                        self._bullets.append(Bullet(self._player.posX + 5, self._player.posY))
         self._cooldown -= deltaTime
 
         for explosion in self._explosions:
@@ -192,7 +208,7 @@ class Game:
         for bullet in self._bullets:
             bullet: Bullet
 
-
+            #Where the enemies get killed
             for enemy in self._enemies:
                 enemy: Enemy
                 colSize = 18
@@ -202,6 +218,10 @@ class Game:
                         self._enemies.remove(enemy)
                         self._bullets.remove(bullet)
                         self._score += 10
+
+                        if rand() * 100 <= 100: #Change this to 5% chance
+                            Window.WINDOW._game._powerUps.append(Pow(enemy.posX, enemy.posY))
+                        #Do here
                         break
             for enemy in self._collisionEnemies:
                 enemy : CollisionEnemy
@@ -233,6 +253,10 @@ class Game:
 
 
             enemyBullet.draw( deltaTime, time)
+
+        for pow in self._powerUps:
+            pow: Pow
+            pow.draw(deltaTime, time)
 
         for enemy in self._enemies:
             enemy: Enemy
