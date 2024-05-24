@@ -31,6 +31,9 @@ class Pow:
         if self.distanceToPlayer < 10:
            print("Spaghetti")
                 
+        if self.posY > Window.WINDOW._actualHeight:
+            if self in Window.WINDOW._game._powerUps:
+                Window.WINDOW._game._powerUps.remove(self)
 
 
         pass
