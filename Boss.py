@@ -16,7 +16,12 @@ class Boss:
     distanceToPlayerY = 100
     distanceToPlayer = 100
 
-    health = 250 #amount of times u need to shoot the boss before death
+    health = 50 #amount of times u need to shoot the boss before death
+
+    moveDir = 0
+    move = False
+    setMovement = False
+    moveSpot = 0
 
     shootTimer = 0
     timeUntilShot = 4
@@ -24,14 +29,22 @@ class Boss:
     amountOfAttacks = 2
     choseStuff = False
 
+    bossAliveTimer = 0
+
     minTimeUntilShot = 3
     maxTimeUntilShot = 4.5
+
+    deadTimer = 0
+    bossDead = False
+    explosionAnim = 0
 
     #next boss attack is the next type of attack the boss will do
     #0 is the average shot and 1  is a big boom, shooting bullets in every direction.
 
     def __init__(self, x: int, y: int, _health: int) -> None:
         Window.WINDOW._game._spawnWaves = False
+        self.explosionAnim = 0
+        self.bossDead = False
         self.posX = x
         self.posY = y
         self.health = _health
@@ -41,20 +54,61 @@ class Boss:
 
         if self.posY < 30:
             self.posY += 25 * deltaTime
-
         
         DrawSprite("boss", self.posX, self.posY)
+
+        self.bossAliveTimer += deltaTime
 
         self.shootTimer += deltaTime
 
         if self.health <= 0:
-            print("boss dead")
-            Window.WINDOW._game._boss = None
+            self.bossDead = True
+            self.deadTimer += deltaTime
+            yOffsetDown = 60
+
+            if self.deadTimer > 0.2 and self.explosionAnim == 0:
+                self.explosionAnim += 1
+                Window.WINDOW._game._explosions.append(Explosion(self.posX, self.posY + yOffsetDown))
+            if self.deadTimer > 0.3 and self.explosionAnim == 1:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 10, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 0.5 and self.explosionAnim == 2:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 20, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 0.6 and self.explosionAnim == 3:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 30, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 0.7 and self.explosionAnim == 4:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 40, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 0.8 and self.explosionAnim == 5:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 50, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 1.2 and self.explosionAnim == 6:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 100, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 1.3 and self.explosionAnim == 7:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 110, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 1.4 and self.explosionAnim == 8:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 120,  self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 1.5 and self.explosionAnim == 9:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 130, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 1.6 and self.explosionAnim == 10:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 140, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.deadTimer > 1.7 and self.explosionAnim == 11:
+                Window.WINDOW._game._explosions.append(Explosion(self.posX + 150, self.posY + yOffsetDown))
+                self.explosionAnim += 1
+            if self.explosionAnim == 12:
+                Window.WINDOW._game._boss = None
+                Window.WINDOW._game._spawnWaves = True
 
         if self.shootTimer >= self.timeUntilShot:
             yOffsetDown = 60
             if self.nextBossAttack == 0:
-                
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX, self.posY + yOffsetDown))
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 10, self.posY + yOffsetDown))
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 20, self.posY + yOffsetDown))
@@ -76,6 +130,50 @@ class Boss:
         self.distanceToPlayerX = abs(Window.WINDOW._game._player.posX - self.posX)
         self.distanceToPlayerY = abs(Window.WINDOW._game._player.posY - self.posY)
         self.distanceToPlayer = sqrt(self.distanceToPlayerX * self.distanceToPlayerX + self.distanceToPlayerY * self.distanceToPlayerY)
+
+        if self.bossAliveTimer > 2 and self.move == False:
+            self.move = True
+
+        if self.move == True:
+
+            #if move spot is 0, go to center, move spot is 1, go to right, move spot 2, go right.
+            if self.setMovement == False:
+                self.moveDir = round(rand() * 3)
+                self.setMovement = True
+                if self.moveDir < 1:
+                    if self.posX < 100:
+                        self.moveDir = 15
+                        self.moveSpot = 2
+                    else:
+                        self.moveDir = 1
+                if self.moveDir <= 3 and self.moveDir > 2:
+                    if self.posX < 100:
+                        self.moveDir = -15
+                        self.moveSpot = 1
+                    else:
+                        self.moveDir = 1
+                if self.moveDir < 2:
+                    if self.posX < 100:
+                        self.moveDir = 15
+                    if self.posX >= 100:
+                        self.moveDir = -15
+                        self.moveSpot = 0
+            
+            if self.moveSpot == 0:
+                if self.posX > 15 and self.posX < 15:
+                    self.posX += self.moveDir * deltaTime
+                else:
+                    self.setMovement = False
+            if self.moveSpot == 2:
+                if self.posX > 50:
+                    self.posX += self.moveDir * deltaTime
+                else:
+                    self.setMovement = False
+            if self.moveSpot == 1:
+                if self.posX < 15:
+                    self.posX += self.moveDir * deltaTime
+                else:
+                    self.setMovement = False
 
 
         if self.distanceToPlayerX < 160 and self.distanceToPlayerY < 100:
