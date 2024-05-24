@@ -104,8 +104,7 @@ class Game:
     _Muted: bool = False
 
     _pow: bool = False
-
-    _pow: bool = False
+    _powTime: float = 0
 
     _EnteredGodMode = False
 
@@ -231,11 +230,12 @@ class Game:
             #for plane in Wave:
             #    self._enemies.append(Enemy(Window.WINDOW._actualWidth / 2 + plane[0] * 75, plane[1] * 75 - 100))
 
-        if Input.GetKeyDown(pg.K_c):
-            if self._pow ==True:
+        if self._pow:
+            self._powTime += deltaTime
+            if self._powTime > 30:
                 self._pow = False
-            if self._pow == False:
-                self._pow = True
+                self._powTime = 0
+
         if self._spawnWaves:
             self._waveTime -= deltaTime
         #Player Bullet Stuff
@@ -279,7 +279,7 @@ class Game:
                         self._bullets.remove(bullet)
                         self._score += 10
 
-                        if rand() * 100 <= 100: #Change this to 5% chance
+                        if rand() * 100 <= 15: 
                             Window.WINDOW._game._powerUps.append(Pow(enemy.posX, enemy.posY))
                         #Do here
                         break
