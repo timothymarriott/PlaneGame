@@ -30,10 +30,11 @@ class Boss:
     #next boss attack is the next type of attack the boss will do
     #0 is the average shot and 1  is a big boom, shooting bullets in every direction.
 
-    def __init__(self, x: int, y: int) -> None:
+    def __init__(self, x: int, y: int, _health: int) -> None:
         Window.WINDOW._game._spawnWaves = False
         self.posX = x
         self.posY = y
+        self.health = _health
         pass
 
     def draw(self, deltaTime: float, time: float):

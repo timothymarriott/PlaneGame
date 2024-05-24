@@ -101,6 +101,8 @@ class Game:
 
     _Muted: bool = False
 
+    _EnteredGodMode = False
+
     _debugY: int = 0
     def DrawDebugText(self, text: str, color = (255, 255, 255)) -> None:
         DrawText(text, 0, self._debugY, color)
@@ -163,13 +165,16 @@ class Game:
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
             self._SkipMenu = False
+            Window.WINDOW._game._EnteredGodMode = False
 
         if Input.GetKeyDown(pg.K_z):
             self._showDebug = not self._showDebug
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
+        if self._player._godmode:
+            self._EnteredGodMode = True
         if Input.GetKeyDown(pg.K_f):
-            self._boss = Boss(30, -70)
+            self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
 
         mousePos = pg.mouse.get_pos()
 
@@ -178,6 +183,7 @@ class Game:
 
         self._background.draw(deltaTime, time)
         
+
 
 
         if self._waveTime <= 0:
@@ -306,9 +312,14 @@ class Game:
             collisionEnemy.draw(deltaTime, time)
 
         self._player.draw( deltaTime, time)
+
+
+        if not self._EnteredGodMode:
         
-        if self._score > self._highScore:
-            self._highScore = self._score
+            if self._score > self._highScore:
+                self._highScore = self._score
+        else:
+            self._score = 0
         
         self._debugY = 0
         
@@ -347,6 +358,11 @@ class Game:
             totalWaveTime = self._timeBetweenWaves
             self.DrawDebugText("TOTAL WAVE TIME: " + str(round(totalWaveTime, 2)), (255, 255, 255))
             self.DrawDebugText("FPS: " + str(round(Window.WINDOW.clock.get_fps(), 1)), (255, 0, 0))
+
+            if self._boss != None:
+                self.DrawDebugText(" ", (255, 255, 255))
+                self.DrawDebugText("BOSS", (255, 255, 255))
+                self.DrawDebugText("HEALTH: " + str(self._boss.health), (255, 255, 255))
 
         
         return
