@@ -281,7 +281,7 @@ class Game:
                             self._bullets.remove(bullet)
                         self._score += 10
 
-                        if rand() * 100 <= 15: 
+                        if rand() * 100 <= 5: 
                             Window.WINDOW._game._powerUps.append(Pow(enemy.posX, enemy.posY))
                         #Do here
                         break
