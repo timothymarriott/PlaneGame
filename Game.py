@@ -27,11 +27,14 @@ def generate_circle_points(radius, num_points):
     :param num_points: The number of points to generate.
     :return: A list of tuples representing the points on the circle.
     """
+
+    startPos = round(rand() * 100)
+
     points = []
     angle_increment = 2 * math.pi / num_points
     
     for i in range(num_points):
-        angle = i * angle_increment
+        angle = i + startPos * angle_increment
         x = radius * math.cos(angle)
         y = radius * math.sin(angle)
         points.append((x, y))
@@ -109,6 +112,8 @@ class Game:
 
     _EnteredGodMode = False
 
+    _bossesSpawned: int = 0
+
     _debugY: int = 0
     def DrawDebugText(self, text: str, color = (255, 255, 255)) -> None:
         DrawText(text, 0, self._debugY, color)
@@ -125,6 +130,7 @@ class Game:
         self._player = Player()
         self._menu = Menu()
         self._menu.Start()
+        RegisterSprite("ShockedSeb", "Planes/SebAsset2.png")
         RegisterSprite("boss", "Planes/BigBoss.png")
         RegisterSprite("Explosion/0", "Explosion/frame1.png")
         RegisterSprite("Explosion/1", "Explosion/frame2.png")
@@ -171,6 +177,9 @@ class Game:
             self._menu.Draw()
             return
         
+        if Input.GetKeyDown(pg.K_c):
+            if self._player._godmode == True:
+                self._pow = True
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
             self._SkipMenu = False
@@ -204,7 +213,8 @@ class Game:
 
             if self._boss == None:
                 if(self._wave + 1) % 10 == 0:
-                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
+                    self._bossesSpawned += 1
+                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(150 * (self._bossesSpawned / 1.2)))
                     spawnedBoss = True
                     self._wave += 1
                     self._waveTime = self._startWaveTime
@@ -268,7 +278,7 @@ class Game:
 
         if self._pow:
             self._powTime += deltaTime
-            if self._powTime > 30:
+            if self._powTime > 10:
                 self._pow = False
                 self._powTime = 0
 
