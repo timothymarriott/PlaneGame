@@ -191,9 +191,14 @@ class Game:
             self._menu.Reset()
             self._SkipMenu = False
             Window.WINDOW._game._EnteredGodMode = False
-
+        if Input.GetKeyDown(pg.K_b):
+            self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
+        
         if Input.GetKeyDown(pg.K_z):
             self._showDebug = not self._showDebug
+
+        
+
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
         if self._player._godmode:
