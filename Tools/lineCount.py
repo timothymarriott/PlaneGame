@@ -5,6 +5,7 @@ import sys
 print("Calculating...")
 
 total = 0
+totalFiles = 0
 
 for f in [abspath(x) for x in glob(join("./", '*')) if isfile(x)]:
     if f.endswith("py"):
@@ -12,6 +13,7 @@ for f in [abspath(x) for x in glob(join("./", '*')) if isfile(x)]:
         lineCount = len(file.readlines())
         print(file.name + " | " + str(lineCount))
         total += lineCount
+        totalFiles+=1
         file.close()
 
-print("Total Lines: " + str(total))
+print(str(total) + " Lines over " + str(totalFiles) + " files.")
