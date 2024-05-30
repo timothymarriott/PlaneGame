@@ -180,6 +180,13 @@ class Game:
         if Input.GetKeyDown(pg.K_c):
             if self._player._godmode == True:
                 self._pow = True
+
+        if Input.GetKeyDown(pg.K_PERIOD):
+            if self._player._godmode ==True:
+                if self._wave == 1:
+                    self._wave += 8
+                else:
+                    self._wave += 9
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
             self._SkipMenu = False

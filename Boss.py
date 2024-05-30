@@ -55,7 +55,13 @@ class Boss:
         if self.posY < 30:
             self.posY += 25 * deltaTime
         
-        DrawSprite("boss", self.posX, self.posY)
+        if Window.WINDOW._game._bossesSpawned > 1:
+            if rand() * 100 <= 1: 
+                DrawSprite("ShockedSeb", self.posX, self.posY)
+            else:
+                DrawSprite("boss", self.posX, self.posY)
+        else:
+            DrawSprite("boss", self.posX, self.posY)
 
         self.bossAliveTimer += deltaTime
 
