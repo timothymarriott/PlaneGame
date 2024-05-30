@@ -194,7 +194,7 @@ class Game:
         
         if Input.GetKeyDown(pg.K_COMMA):
             if self._player._godmode == True:
-                if self._wave >= 0:
+                if self._wave >= 5:
                     self._wave -= 5
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
