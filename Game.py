@@ -182,8 +182,6 @@ class Game:
             self._player._godmode = not self._player._godmode
         if self._player._godmode:
             self._EnteredGodMode = True
-        if Input.GetKeyDown(pg.K_f):
-            self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
 
         mousePos = pg.mouse.get_pos()
 
@@ -196,34 +194,42 @@ class Game:
 
 
         if self._waveTime <= 0:
-            for i in range(round(rand()) * (self._maxEnemiesPerWave - self._minEnemiesPerWave) + self._minEnemiesPerWave):
-                if round(rand() * 10) <= self._colEnemyChance and self._wave > 3:
-                    self._collisionEnemies.append(CollisionEnemy(rand() * 200, rand() * -100))
-                else:
-                    self._enemies.append(Enemy(rand() * 200, rand() * -100))
-            self._wave += 1
-            self._waveTime = self._startWaveTime
-            for i in range(self._wave):
-                if self._decreaseWaveTime:
-                    if self._timeBetweenWaves > self._stopScalingAt:
-                        self._waveTime *= 1 - (self._waveTime) / self._scaling
+
+            spawnedBoss = False
+
+            if self._wave + 1 % 10 == 0:
+                self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
+                spawnedBoss = True
+
+            if spawnedBoss == False:
+                for i in range(round(rand()) * (self._maxEnemiesPerWave - self._minEnemiesPerWave) + self._minEnemiesPerWave):
+                    if round(rand() * 10) <= self._colEnemyChance and self._wave > 3:
+                        self._collisionEnemies.append(CollisionEnemy(rand() * 200, rand() * -100))
                     else:
-                        self._waveTime = self._stopScalingAt
+                        self._enemies.append(Enemy(rand() * 200, rand() * -100))
+                self._wave += 1
+                self._waveTime = self._startWaveTime
+                for i in range(self._wave):
+                    if self._decreaseWaveTime:
+                        if self._timeBetweenWaves > self._stopScalingAt:
+                            self._waveTime *= 1 - (self._waveTime) / self._scaling
+                        else:
+                            self._waveTime = self._stopScalingAt
+                    else:
+                        self._waveTime = self._timeBetweenWaves
+                self._timeBetweenWaves = self._waveTime
+                self._wavesSinceLastCount += 1
+
+                if self._wavesSinceLastCount >= self._wavesBetweenCountUp:
+                    self._maxEnemiesPerWave += 1
+                    self._minEnemiesPerWave += 1
+                    self._wavesBetweenCountUp *= 1.5
+                    self._wavesSinceLastCount = 0
+
+                if self._colEnemyChance < self._maxColChance:
+                    self._colEnemyChance = self._wave / 10
                 else:
-                    self._waveTime = self._timeBetweenWaves
-            self._timeBetweenWaves = self._waveTime
-            self._wavesSinceLastCount += 1
-
-            if self._wavesSinceLastCount >= self._wavesBetweenCountUp:
-                self._maxEnemiesPerWave += 1
-                self._minEnemiesPerWave += 1
-                self._wavesBetweenCountUp *= 1.5
-                self._wavesSinceLastCount = 0
-
-            if self._colEnemyChance < self._maxColChance:
-                self._colEnemyChance = self._wave / 10
-            else:
-                self._colEnemyChance = self._maxColChance
+                    self._colEnemyChance = self._maxColChance
 
             
             #Wave = WAVES[round(rand()*(len(WAVES) - 1))]
