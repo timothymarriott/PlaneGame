@@ -160,9 +160,6 @@ class Game:
         
         pass
 
-    def spawnBoss():
-        self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
-
     def Update(self, deltaTime: float, time: float):
         
         if self._Muted:
@@ -200,8 +197,8 @@ class Game:
 
             spawnedBoss = False
 
-            if self._wave % 10 == 0:
-                self.spawnBoss()
+            if self._wave + 1 % 10 == 0:
+                self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
                 spawnedBoss = True
 
             if spawnedBoss == False:
