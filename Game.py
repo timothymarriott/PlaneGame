@@ -27,11 +27,14 @@ def generate_circle_points(radius, num_points):
     :param num_points: The number of points to generate.
     :return: A list of tuples representing the points on the circle.
     """
+
+    startPos = round(rand() * 100)
+
     points = []
     angle_increment = 2 * math.pi / num_points
     
     for i in range(num_points):
-        angle = i * angle_increment
+        angle = i + startPos * angle_increment
         x = radius * math.cos(angle)
         y = radius * math.sin(angle)
         points.append((x, y))
@@ -108,6 +111,8 @@ class Game:
     _powTime: float = 0
 
     _EnteredGodMode = False
+
+    _bossesSpawned: int = 0
 
     _debugY: int = 0
     def DrawDebugText(self, text: str, color = (255, 255, 255)) -> None:
@@ -199,7 +204,8 @@ class Game:
 
             if self._boss == None:
                 if(self._wave + 1) % 10 == 0:
-                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
+                    self._bossesSpawned += 1
+                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(150 * (self._bossesSpawned / 1.2)))
                     spawnedBoss = True
                     self._wave += 1
                     self._waveTime = self._startWaveTime

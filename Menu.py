@@ -74,6 +74,7 @@ class Menu:
                         Window.WINDOW._game._SkipMenu = True
                         Window.WINDOW._game._spawnWaves = True
                         Window.WINDOW._game._decreaseWaveTime = True
+                        Window.WINDOW._game._bossesSpawned = 0
                         
                 else:
                     DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 255))
