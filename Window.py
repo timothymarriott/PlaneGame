@@ -42,9 +42,9 @@ class Window:
 
     def Create(self):
         pg.init()
+        pg.display.set_icon(pg.image.load("./assets/window-icon.png"))
         self._display = pg.display.set_mode((self._width, self._height))
 
-        pg.display.set_icon(pg.image.load("./assets/initial_logo.png"))
         pg.display.set_caption(self._title)
 
         self.clock = pg.time.Clock()
