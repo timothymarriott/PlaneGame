@@ -18,10 +18,8 @@ class Boss:
 
     health = 50 #amount of times u need to shoot the boss before death
 
-    moveDir = 0
-    move = False
-    setMovement = False
-    moveSpot = 0
+    moveDir = 1
+    moveSpeed = 30
 
     shootTimer = 0
     timeUntilShot = 4
@@ -38,6 +36,8 @@ class Boss:
     bossDead = False
     explosionAnim = 0
 
+    sideBufferSpace = 0
+
     #next boss attack is the next type of attack the boss will do
     #0 is the average shot and 1  is a big boom, shooting bullets in every direction.
 
@@ -48,6 +48,7 @@ class Boss:
         self.posX = x
         self.posY = y
         self.health = _health
+        self.sideBufferSpace = LoadSprite("boss").get_width()
         pass
 
     def draw(self, deltaTime: float, time: float):
@@ -131,8 +132,16 @@ class Boss:
         self.distanceToPlayerY = abs(Window.WINDOW._game._player.posY - self.posY)
         self.distanceToPlayer = sqrt(self.distanceToPlayerX * self.distanceToPlayerX + self.distanceToPlayerY * self.distanceToPlayerY)
 
-        if self.bossAliveTimer > 2 and self.move == False:
-            self.move = True
+        if self.bossAliveTimer > 2:
+            
+            self.posX += self.moveSpeed * self.moveDir * deltaTime
+
+            if self.posX < 0:
+                self.posX = 0
+                self.moveDir = 1
+            if self.posX > Window.WINDOW._actualWidth - self.sideBufferSpace:
+                self.posX = Window.WINDOW._actualWidth - self.sideBufferSpace
+                self.moveDir = -1
 
         '''
         if self.move == True:
