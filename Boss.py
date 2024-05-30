@@ -20,6 +20,8 @@ class Boss:
 
     moveDir = 1
     moveSpeed = 30
+    
+    bossSprite = 0
 
     shootTimer = 0
     timeUntilShot = 4
@@ -43,6 +45,13 @@ class Boss:
 
     def __init__(self, x: int, y: int, _health: int) -> None:
         Window.WINDOW._game._spawnWaves = False
+
+        self.bossSprite = 0
+
+        if Window.WINDOW._game._bossesSpawned > 1:
+            if rand() * 100 <= 1: 
+                self.bossSprite = 1
+
         self.explosionAnim = 0
         self.bossDead = False
         self.posX = x
@@ -56,13 +65,10 @@ class Boss:
         if self.posY < 30:
             self.posY += 25 * deltaTime
         
-        if Window.WINDOW._game._bossesSpawned > 1:
-            if rand() * 100 <= 1: 
-                DrawSprite("ShockedSeb", self.posX, self.posY)
-            else:
-                DrawSprite("boss", self.posX, self.posY)
-        else:
+        if self.bossSprite == 0:
             DrawSprite("boss", self.posX, self.posY)
+        if self.bossSprite == 1:
+            DrawSprite("ShockedSeb", self.posX, self.posY)
 
         self.bossAliveTimer += deltaTime
 
