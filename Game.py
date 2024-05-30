@@ -125,6 +125,7 @@ class Game:
         self._player = Player()
         self._menu = Menu()
         self._menu.Start()
+        RegisterSprite("ShockedSeb", "Planes/SebAsset2.png")
         RegisterSprite("boss", "Planes/BigBoss.png")
         RegisterSprite("Explosion/0", "Explosion/frame1.png")
         RegisterSprite("Explosion/1", "Explosion/frame2.png")
@@ -171,6 +172,9 @@ class Game:
             self._menu.Draw()
             return
         
+        if Input.GetKeyDown(pg.K_c):
+            if self._player._godmode == True:
+                self._pow = True
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
             self._SkipMenu = False
@@ -263,7 +267,7 @@ class Game:
 
         if self._pow:
             self._powTime += deltaTime
-            if self._powTime > 30:
+            if self._powTime > 10:
                 self._pow = False
                 self._powTime = 0
 
