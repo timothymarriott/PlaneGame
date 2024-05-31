@@ -232,7 +232,7 @@ class Game:
             if self._boss == None:
                 if(self._wave + 1) % 10 + self._bossSpawnIncrease == 0:
                     self._bossesSpawned += 1
-                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(150 * (self._bossesSpawned / 1.2)), 12 + self._bossesSpawned - 1)
+                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(150 * (self._bossesSpawned / 1.2)), 10 + self._bossesSpawned - 1)
                     spawnedBoss = True
                     self._wave += 1
                     self._waveTime = self._startWaveTime
