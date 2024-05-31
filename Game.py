@@ -64,6 +64,8 @@ class Game:
     _powerUps = []
 
     _bossSpawnIncrease: int = 0
+    _startBossHealth: int = 120
+    _nextBossHealth: int = _startBossHealth
 
     _player: Player = None
 
@@ -232,9 +234,10 @@ class Game:
             if self._boss == None:
                 if(self._wave + 1) % 10 + self._bossSpawnIncrease == 0:
                     self._bossesSpawned += 1
-                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(150 * (self._bossesSpawned / 1.2)), 10 + self._bossesSpawned - 1)
+                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(self._nextBossHealth + 30), 10 + self._bossesSpawned - 1)
                     spawnedBoss = True
                     self._wave += 1
+                    self._nextBossHealth = round((self._nextBossHealth + 30) * 1.1)
                     self._waveTime = self._startWaveTime
                     for i in range(self._wave):
                         if self._decreaseWaveTime:
