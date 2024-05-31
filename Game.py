@@ -15,6 +15,7 @@ from Text import *
 from math import floor
 from Program import app_folder
 from Pow import Pow
+from Pow2 import Pow2
 from math import sqrt
 import os
 import math
@@ -62,6 +63,7 @@ class Game:
     _collisionEnemies = []
     _boss = None
     _powerUps = []
+    _powerUps2 = []
 
     _player: Player = None
 
@@ -108,7 +110,9 @@ class Game:
     _Muted: bool = False
 
     _pow: bool = False
+    _pow2: bool = False
     _powTime: float = 0
+    _pow2Num: int = 0
 
     _EnteredGodMode = False
 
@@ -142,6 +146,7 @@ class Game:
         RegisterSprite("defaultEnemy", "smallGreenPlane.png")
         RegisterSprite("collideEnemy", "FatGreyPlane.png")
         RegisterSprite("Powerup", "Pow.png")
+        RegisterSprite("Powerup2", "Pow2.png")
         LoadChars()
         pg.mixer.music.load("./Assets/music_main.mp3")
         pg.mixer.music.play(-1)
@@ -176,6 +181,13 @@ class Game:
         if not self._SkipMenu:
             self._menu.Draw()
             return
+        
+        if Input.GetKeyDown(pg.K_v):
+            if self._player._godmode == True:
+                Pow2.usePowerup()
+            elif self._pow2Num > 0:
+                Pow2.usePowerup()
+                self._pow2Num -= 1
         
         if Input.GetKeyDown(pg.K_c):
             if self._player._godmode == True:
@@ -215,8 +227,10 @@ class Game:
 
         mousePos = pg.mouse.get_pos()
 
+        '''
         if Input.GetKeyDown(pg.K_v):
             MakeBulletCircle(mousePos[0] / 2, mousePos[1] / 2, 25)
+        '''
 
         self._background.draw(deltaTime, time)
         
@@ -356,6 +370,8 @@ class Game:
                         if bullet in self._bullets:
                             self._bullets.remove(bullet)
                         self._score += 10
+                        if rand() * 100 >= 25:
+                            Window.WINDOW._game._powerUps2.append(Pow2(enemy.posX, enemy.posY))
                         break
             
             if self._boss  != None:
@@ -400,6 +416,10 @@ class Game:
         for pow in self._powerUps:
             pow: Pow
             pow.draw(deltaTime, time)
+
+        for pow2 in self._powerUps2:
+            pow2: Pow2
+            pow2.draw(deltaTime, time)
 
         for enemy in self._enemies:
             enemy: Enemy
