@@ -34,6 +34,8 @@ class Boss:
     minTimeUntilShot = 3
     maxTimeUntilShot = 4.5
 
+    circleShootSize = 10
+
     deadTimer = 0
     bossDead = False
     explosionAnim = 0
@@ -43,7 +45,7 @@ class Boss:
     #next boss attack is the next type of attack the boss will do
     #0 is the average shot and 1  is a big boom, shooting bullets in every direction.
 
-    def __init__(self, x: int, y: int, _health: int) -> None:
+    def __init__(self, x: int, y: int, _health: int, circleAmt: int) -> None:
         Window.WINDOW._game._spawnWaves = False
 
         self.bossSprite = 0
@@ -51,6 +53,8 @@ class Boss:
         if Window.WINDOW._game._bossesSpawned > 1:
             if rand() * 100 <= 1: 
                 self.bossSprite = 1
+
+        self.circleShootSize = circleAmt
 
         self.explosionAnim = 0
         self.bossDead = False
@@ -69,6 +73,8 @@ class Boss:
             DrawSprite("boss", self.posX, self.posY)
         if self.bossSprite == 1:
             DrawSprite("ShockedSeb", self.posX, self.posY)
+            if self.shootTimer > 5:
+                Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 75, self.posY + 80))
 
         self.bossAliveTimer += deltaTime
 
@@ -135,7 +141,7 @@ class Boss:
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 140, self.posY + yOffsetDown))
                 Window.WINDOW._game._enemyBullets.append(EnemyBullet(self.posX + 150, self.posY + yOffsetDown))
             if self.nextBossAttack == 1:
-                Game.MakeBulletCircle(self.posX + 75, self.posY + yOffsetDown, 15)
+                Game.MakeBulletCircle(self.posX + 75, self.posY + yOffsetDown, self.circleShootSize)
             self.shootTimer = 0
             self.timeUntilShot = round(rand()) * (self.maxTimeUntilShot - self.minTimeUntilShot) + self.minTimeUntilShot
             self.nextBossAttack = math.ceil(rand() * self.amountOfAttacks -  1)
@@ -144,9 +150,8 @@ class Boss:
         self.distanceToPlayerY = abs(Window.WINDOW._game._player.posY - self.posY)
         self.distanceToPlayer = sqrt(self.distanceToPlayerX * self.distanceToPlayerX + self.distanceToPlayerY * self.distanceToPlayerY)
 
-        if self.bossAliveTimer > 2:
-            
-            self.posX += self.moveSpeed * self.moveDir * deltaTime
+        if self.bossAliveTimer > 5:
+            self.posX += self.moveSpeed * self.moveDir * deltaTime / 2
 
             if self.posX < 0:
                 self.posX = 0
