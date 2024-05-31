@@ -237,7 +237,7 @@ class Game:
                     self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(self._nextBossHealth + 30), 10 + self._bossesSpawned - 1)
                     spawnedBoss = True
                     self._wave += 1
-                    self._nextBossHealth = round((self._nextBossHealth + 30) * 1.1)
+                    self._nextBossHealth = round((self._nextBossHealth + 40) * 1.1)
                     self._waveTime = self._startWaveTime
                     for i in range(self._wave):
                         if self._decreaseWaveTime:
