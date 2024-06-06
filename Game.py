@@ -64,6 +64,7 @@ class Game:
     _boss = None
     _powerUps = []
     _powerUps2 = []
+    _powerUps2Vis = []
 
     _player: Player = None
 
@@ -147,6 +148,7 @@ class Game:
         RegisterSprite("collideEnemy", "FatGreyPlane.png")
         RegisterSprite("Powerup", "Pow.png")
         RegisterSprite("Powerup2", "Pow2.png")
+        RegisterSprite("Pow2Vis", "PowerUpVis.png")
         LoadChars()
         pg.mixer.music.load("./Assets/music_main.mp3")
         pg.mixer.music.play(-1)
@@ -188,6 +190,7 @@ class Game:
             elif self._pow2Num > 0:
                 Pow2.usePowerup()
                 self._pow2Num -= 1
+                print(str(self._pow2Num))
         
         if Input.GetKeyDown(pg.K_c):
             if self._player._godmode == True:
@@ -218,7 +221,7 @@ class Game:
         if Input.GetKeyDown(pg.K_z):
             self._showDebug = not self._showDebug
 
-        
+        Pow2.renderPower()
 
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
@@ -234,7 +237,8 @@ class Game:
 
         self._background.draw(deltaTime, time)
         
-
+        if Input.GetKeyDown(pg.K_2):
+            print(mousePos)
 
 
         if self._waveTime <= 0:
@@ -420,6 +424,8 @@ class Game:
         for pow2 in self._powerUps2:
             pow2: Pow2
             pow2.draw(deltaTime, time)
+        
+        
 
         for enemy in self._enemies:
             enemy: Enemy

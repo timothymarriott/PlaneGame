@@ -44,6 +44,15 @@ class Pow2:
         Window.WINDOW._game._bullets.append(Bullet(210, 293))
         Window.WINDOW._game._bullets.append(Bullet(220, 293))
 
+    def renderPower():
+        if Window.WINDOW._game._pow2Num >= 1:
+            DrawSprite("Pow2Vis", 237, 199)
+        if Window.WINDOW._game._pow2Num >= 2:
+            DrawSprite("Pow2Vis",20, 213)
+        if Window.WINDOW._game._pow2Num == 3:
+            DrawSprite("Pow2Vis", 30, 213)    
+
+
     def draw(self, deltaTime: float, time: float):
 
         DrawSprite("Powerup2", self.posX-1, self.posY)
@@ -63,7 +72,8 @@ class Pow2:
             if Window.WINDOW._game._pow2Num < 3:
                 Window.WINDOW._game._pow2Num += 1
                 print(str(Window.WINDOW._game._pow2Num))
-                
+        
+            
                 
         if self.posY > Window.WINDOW._actualHeight:
             if self in Window.WINDOW._game._powerUps2:
