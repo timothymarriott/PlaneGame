@@ -195,7 +195,11 @@ class Game:
                 Pow2.usePowerup()
                 self._pow2Num -= 1
                 print(str(self._pow2Num))
-        
+        if Input.GetKeyDown(pg.K_x):
+            if self._player._godmode == True:
+                if self._pow2Num < 3:
+                    self._pow2Num += 1
+
         if Input.GetKeyDown(pg.K_c):
             if self._player._godmode == True:
                 self._pow = True
@@ -225,7 +229,7 @@ class Game:
         if Input.GetKeyDown(pg.K_z):
             self._showDebug = not self._showDebug
 
-        Pow2.renderPower()
+        
 
         if Input.GetKeyDown(pg.K_i):
             self._player._godmode = not self._player._godmode
@@ -382,7 +386,7 @@ class Game:
                         if bullet in self._bullets:
                             self._bullets.remove(bullet)
                         self._score += 10
-                        if rand() * 100 >= 25:
+                        if rand() * 100 <= 25:
                             Window.WINDOW._game._powerUps2.append(Pow2(enemy.posX, enemy.posY))
                         break
             
@@ -432,8 +436,9 @@ class Game:
         for pow2 in self._powerUps2:
             pow2: Pow2
             pow2.draw(deltaTime, time)
-        
-        
+
+              
+            
 
         for enemy in self._enemies:
             enemy: Enemy
@@ -455,6 +460,7 @@ class Game:
         
         self._debugY = 0
         
+        Pow2.renderPower()
 
         if self._showDebug:
             

@@ -46,11 +46,11 @@ class Pow2:
 
     def renderPower():
         if Window.WINDOW._game._pow2Num >= 1:
-            DrawSprite("Pow2Vis", 237, 199)
+            DrawSprite("Pow2Vis", 10, 263)
         if Window.WINDOW._game._pow2Num >= 2:
-            DrawSprite("Pow2Vis",20, 213)
+            DrawSprite("Pow2Vis",20, 263)
         if Window.WINDOW._game._pow2Num == 3:
-            DrawSprite("Pow2Vis", 30, 213)    
+            DrawSprite("Pow2Vis", 30, 263)    
 
 
     def draw(self, deltaTime: float, time: float):
