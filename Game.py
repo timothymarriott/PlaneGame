@@ -66,6 +66,10 @@ class Game:
     _powerUps2 = []
     _powerUps2Vis = []
 
+    _bossSpawnIncrease: int = 0
+    _startBossHealth: int = 120
+    _nextBossHealth: int = _startBossHealth
+
     _player: Player = None
 
     _cooldown: float = 0
@@ -246,11 +250,12 @@ class Game:
             spawnedBoss = False
 
             if self._boss == None:
-                if(self._wave + 1) % 10 == 0:
+                if(self._wave + 1) % 10 + self._bossSpawnIncrease == 0:
                     self._bossesSpawned += 1
-                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(150 * (self._bossesSpawned / 1.2)))
+                    self._boss = Boss(30, -LoadSprite("boss").get_height()-10, round(self._nextBossHealth + 30), 10 + self._bossesSpawned - 1)
                     spawnedBoss = True
                     self._wave += 1
+                    self._nextBossHealth = round((self._nextBossHealth + 40) * 1.1)
                     self._waveTime = self._startWaveTime
                     for i in range(self._wave):
                         if self._decreaseWaveTime:
@@ -262,6 +267,9 @@ class Game:
                             self._waveTime = self._timeBetweenWaves
                     self._timeBetweenWaves = self._waveTime
                     self._wavesSinceLastCount += 1
+
+                    if (self._wave + 1) % 20 == 0:
+                        self._bossSpawnIncrease += 10 * (self._bossesSpawned / 2)
 
                     if self._wavesSinceLastCount >= self._wavesBetweenCountUp:
                         self._maxEnemiesPerWave += 1

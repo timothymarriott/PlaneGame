@@ -75,6 +75,8 @@ class Menu:
                         Window.WINDOW._game._spawnWaves = True
                         Window.WINDOW._game._decreaseWaveTime = True
                         Window.WINDOW._game._bossesSpawned = 0
+                        Window.WINDOW._game._bossSpawnIncrease = 0
+                        Window.WINDOW._game._nextBossHealth = Window.WINDOW._game._startBossHealth
                         Window.WINDOW._game._powerUps2.clear()
                         Window.WINDOW._game._pow2Num = 0
                         
