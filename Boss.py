@@ -51,7 +51,7 @@ class Boss:
 
         self.bossSprite = 0
 
-        if Window.WINDOW._game._bossesSpawned > 1:
+        if Window.WINDOW._game._bossesSpawned > 2:
             if rand() * 100 <= 1: 
                 self.bossSprite = 1
 
