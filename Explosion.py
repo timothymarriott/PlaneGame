@@ -1,6 +1,7 @@
 from Input import Input
 import pygame as pg
 from SpriteRegistry import *
+from SoundRegistry import *
 
 
 class Explosion:
@@ -17,6 +18,7 @@ class Explosion:
     def __init__(self, x: int, y: int) -> None:
         self.posX = x
         self.posY = y
+        PlaySound("Explode")
         pass
 
     def draw(self, deltaTime: float, time: float):
