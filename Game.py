@@ -1,6 +1,7 @@
 from Input import Input
 import pygame as pg
 from SpriteRegistry import *
+from SoundRegistry import *
 from Background import Background
 from Explosion import Explosion
 from Player import Player
@@ -19,6 +20,7 @@ from Pow2 import Pow2
 from math import sqrt
 import os
 import math
+
 
 def generate_circle_points(radius, num_points):
     """
@@ -139,6 +141,7 @@ class Game:
         self._player = Player()
         self._menu = Menu()
         self._menu.Start()
+        RegisterSound("Why", "Why2.mp3")
         RegisterSprite("ShockedSeb", "Planes/SebAsset2.png")
         RegisterSprite("boss", "Planes/BigBoss.png")
         RegisterSprite("Explosion/0", "Explosion/frame1.png")
@@ -156,6 +159,7 @@ class Game:
         LoadChars()
         pg.mixer.music.load("./Assets/music_main.mp3")
         pg.mixer.music.play(-1)
+        
 
         #Window.WINDOW._game._powerUps.append(Pow(0, 0))
 
@@ -196,6 +200,7 @@ class Game:
                 self._pow2Num -= 1
                 print(str(self._pow2Num))
         if Input.GetKeyDown(pg.K_x):
+            PlaySound("Why")
             if self._player._godmode == True:
                 if self._pow2Num < 3:
                     self._pow2Num += 1
@@ -402,6 +407,8 @@ class Game:
                 if distanceToBoss < 70:
                     self._explosions.append(Explosion(bullet.posX, bullet.posY))
                     self._boss.health -= 1
+                    if self._boss.bossSprite == 1:
+                        PlaySound("Why")
                     if bullet in self._bullets:
                         self._bullets.remove(bullet)
                     self._score += 2
