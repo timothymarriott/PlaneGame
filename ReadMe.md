@@ -9,8 +9,22 @@ python3 PlaneGame.py
 ```
 
 ## Controls
-W,A,S,D To move plane.
-Space to shoot.
+
+### Menu
+Space to navigate menu.\
+Enter to select.
+### Game
+W,A,S,D To move plane.\
+Space to shoot.\
+V to use Bomb powerup.\
+Escape to return to menu.
+### Cheats
+Z for debug menu.\
+I for god mode. (Will invalidate score)\
+Infinate Bomb Powerup when in godmode.
+Full Stop to go to next wave.\
+Comma to go to previous wave.\
+C gives regular powerup.
 
 ## Technical Info
 The remake has been made in about five weeks. In a team of three, Timothy Marriott, Sebastion Strano and Dane Ebey. The engine uses pygame as the backend and a custom written framework for asset and object management.
