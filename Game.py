@@ -205,8 +205,8 @@ class Game:
                 self._pow2Num -= 1
                 print(str(self._pow2Num))
         if Input.GetKeyDown(pg.K_x):
-            PlaySound("Why")
             if self._player._godmode == True:
+                PlaySound("Why")
                 if self._pow2Num < 3:
                     self._pow2Num += 1
 
