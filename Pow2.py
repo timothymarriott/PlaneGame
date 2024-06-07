@@ -4,6 +4,7 @@ from SpriteRegistry import *
 import Window
 from math import sqrt
 from Bullet import Bullet
+from SoundRegistry import *
 
 
 class Pow2:
@@ -65,7 +66,9 @@ class Pow2:
 
         if self.distanceToPlayer < 25:
             print("Spaghettwo")
-        
+
+            PlaySound("Power")
+
             if self in Window.WINDOW._game._powerUps2:
                 Window.WINDOW._game._powerUps2.remove(self)
             

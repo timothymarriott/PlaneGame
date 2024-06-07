@@ -8,6 +8,7 @@ from Explosion import  Explosion
 from random import random as rand
 import Game as Game
 import math
+from SoundRegistry import *
 
 class Boss:
     posX = 0
@@ -85,6 +86,7 @@ class Boss:
             self.deadTimer += deltaTime
             yOffsetDown = 60
 
+
             if self.deadTimer > 0.2 and self.explosionAnim == 0:
                 self.explosionAnim += 1
                 Window.WINDOW._game._explosions.append(Explosion(self.posX, self.posY + yOffsetDown))
@@ -124,6 +126,7 @@ class Boss:
             if self.explosionAnim == 12:
                 Window.WINDOW._game._boss = None
                 Window.WINDOW._game._spawnWaves = True
+                PlaySound("B_Die")
 
         if self.shootTimer >= self.timeUntilShot:
             yOffsetDown = 60

@@ -3,7 +3,7 @@ import pygame as pg
 from SpriteRegistry import *
 import Window
 from math import sqrt
-
+from SoundRegistry import *
 
 class Pow:
 
@@ -32,6 +32,8 @@ class Pow:
             print("Spaghetti")
             Window.WINDOW._game._pow = True
             Window.WINDOW._game._powTime = 0
+
+            PlaySound("Power")
         
             if self in Window.WINDOW._game._powerUps:
                 Window.WINDOW._game._powerUps.remove(self)
