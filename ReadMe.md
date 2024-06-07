@@ -5,7 +5,7 @@ It is a vertically scrolling shooter.
 ## How To Run
 If the available build works on your Mac just open that.\
 When Opening a build it takes some time for the window to appear. If you didnt instantly get an error it should open.
-Otherwise, Clone the repository and in the root directory run.
+Otherwise, Clone the repository install pygame with pip, then in the project directory run.
 ```bash
 python3 PlaneGame.py
 ```
