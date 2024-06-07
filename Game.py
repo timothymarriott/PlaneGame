@@ -143,6 +143,7 @@ class Game:
         self._player = Player()
         self._menu = Menu()
         self._menu.Start()
+        RegisterSound("Explode", "Explode.mp3")
         RegisterSound("B_Die", "BossDie.mp3")
         RegisterSound("Shot", "Shot.mp3")
         RegisterSound("Why", "Why2.mp3")
