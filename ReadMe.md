@@ -21,7 +21,7 @@ Escape to return to menu.
 ### Cheats
 Z for debug menu.\
 I for god mode. (Will invalidate score)\
-Infinate Bomb Powerup when in godmode.
+Infinite Bomb Powerup when in godmode.\
 Full Stop to go to next wave.\
 Comma to go to previous wave.\
 C gives regular powerup.
