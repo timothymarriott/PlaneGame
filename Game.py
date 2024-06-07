@@ -205,8 +205,8 @@ class Game:
                 self._pow2Num -= 1
                 print(str(self._pow2Num))
         if Input.GetKeyDown(pg.K_x):
-            PlaySound("Why")
             if self._player._godmode == True:
+                PlaySound("Why")
                 if self._pow2Num < 3:
                     self._pow2Num += 1
 
@@ -232,9 +232,6 @@ class Game:
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
             self._SkipMenu = False
-            Window.WINDOW._game._EnteredGodMode = False
-        if Input.GetKeyDown(pg.K_b):
-            self._boss = Boss(30, -LoadSprite("boss").get_height()-10, 200)
         
         if Input.GetKeyDown(pg.K_z):
             self._showDebug = not self._showDebug
