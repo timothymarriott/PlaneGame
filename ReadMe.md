@@ -1,8 +1,10 @@
 # 1942 REMAKE
-This is a remake of the 1984 arcade game by Capcom: 1942. It is a vertically scrolling shooter.
+This is a remake of the 1984 arcade game by Capcom: 1942.\
+It is a vertically scrolling shooter.
 
 ## How To Run
-If the available build works on your Mac just open that.
+If the available build works on your Mac just open that.\
+When Opening a build it takes some time for the window to appear. If you didnt instantly get an error it should open.
 Otherwise, Clone the repository and in the root directory run.
 ```bash
 python3 PlaneGame.py
