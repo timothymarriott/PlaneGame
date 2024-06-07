@@ -39,7 +39,7 @@ class CollisionEnemy:
             if self.posY < 10 and self in Window.WINDOW._game._enemies:
                 Window.WINDOW._game._enemies.remove(self)
 
-        if self.distanceToPlayer < 40:
+        if self.distanceToPlayer < 34:
             if Window.WINDOW._game._player.doRender != False and not Window.WINDOW._game._player._godmode:
                 Window.WINDOW._game._player.doRender = False
                 Window.WINDOW._game._explosions.append(Explosion(Window.WINDOW._game._player.posX, Window.WINDOW._game._player.posY))

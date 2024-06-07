@@ -135,6 +135,8 @@ class Game:
         
 
     def Start(self):
+
+        
         self._background = Background()
         self._player = Player()
         self._menu = Menu()
@@ -171,7 +173,6 @@ class Game:
                 self._Muted = False
             
             self._highScore = int(lines[4].replace("HighScore = ", ""))
-
 
             configFile.close()
         
