@@ -18,5 +18,5 @@ def LoadSound(id) -> pg.mixer.Sound:
     return soundRegistry[id]
 
 def PlaySound(id: str):
-    
-    pg.mixer.Sound.play(LoadSound(id))
+    if not Window.WINDOW._game._Muted:
+        pg.mixer.Sound.play(LoadSound(id))
