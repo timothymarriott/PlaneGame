@@ -10,6 +10,7 @@ soundRegistry = {}
 
 def RegisterSound(id, file):
     soundRegistry.update({id: pg.mixer.Sound("./assets/" + file)})
+    pg.mixer.Sound.set_volume(LoadSound(id), 0.25)
 
 def LoadSound(id) -> pg.mixer.Sound:
     if id not in soundRegistry:
@@ -18,5 +19,6 @@ def LoadSound(id) -> pg.mixer.Sound:
     return soundRegistry[id]
 
 def PlaySound(id: str):
-    
-    pg.mixer.Sound.play(LoadSound(id))
+    if not Window.WINDOW._game._Muted:
+        
+        pg.mixer.Sound.play(LoadSound(id))
