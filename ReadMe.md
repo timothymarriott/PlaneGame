@@ -1,5 +1,5 @@
 # 1942 REMAKE
-This is a remake of the 1984 arcade game 1942 by Capcom. It is a vertically scrolling shooter.
+This is a remake of the 1984 arcade game by Capcom: 1942. It is a vertically scrolling shooter.
 
 ## How To Run
 If the available build works on your Mac just open that.
