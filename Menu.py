@@ -79,6 +79,11 @@ class Menu:
                         Window.WINDOW._game._nextBossHealth = Window.WINDOW._game._startBossHealth
                         Window.WINDOW._game._powerUps2.clear()
                         Window.WINDOW._game._pow2Num = 0
+                        Window.WINDOW._game._minEnemiesPerWave = 3
+                        Window.WINDOW._game._maxEnemiesPerWave = 5
+                        Window.WINDOW._game._timeBetweenWaves = Window.WINDOW._game._startWaveTime  
+                        Window.WINDOW._game._wavesSinceLastCount = 0
+                        Window.WINDOW._game._wavesBetweenCountUp = 10
                         
                 else:
                     DrawText("START", Window.WINDOW._actualWidth / 2 - GetTextWidth("START") / 2, 120, (255, 255, 255))
