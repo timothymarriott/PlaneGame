@@ -205,7 +205,6 @@ class Game:
                 self._pow2Num -= 1
                 print(str(self._pow2Num))
         if Input.GetKeyDown(pg.K_x):
-            PlaySound("Why")
             if self._player._godmode == True:
                 if self._pow2Num < 3:
                     self._pow2Num += 1
@@ -217,18 +216,13 @@ class Game:
         if Input.GetKeyDown(pg.K_PERIOD):
             if self._player._godmode ==True:
                 if self._wave == 1:
-                    self._wave += 8
+                    self._wave += 1
                 else:
-                    self._wave += 9
-        
-        if Input.GetKeyDown(pg.K_SLASH):
-            if self._player._godmode ==True:
-                self._wave += 5
-        
+                    self._wave += 1
         if Input.GetKeyDown(pg.K_COMMA):
             if self._player._godmode == True:
-                if self._wave >= 5:
-                    self._wave -= 5
+                if self._wave >= 1:
+                    self._wave -= 1
         if Input.GetKeyDown(pg.K_ESCAPE):
             self._menu.Reset()
             self._SkipMenu = False
