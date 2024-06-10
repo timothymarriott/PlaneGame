@@ -91,10 +91,8 @@ class Window:
 
     
 
-@staticmethod
 def GET() -> Window:
     return WINDOW
 
-@staticmethod
 def DeltaTime() -> float:
     return WINDOW.clock.get_time()/1000
