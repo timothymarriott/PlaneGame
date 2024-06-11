@@ -197,7 +197,7 @@ class Game:
             self._menu.Draw()
             return
         
-        if Input.GetKeyDown(pg.K_v):
+        if Input.GetKeyDown(pg.K_b):
             if self._player._godmode == True:
                 Pow2.usePowerup()
             elif self._pow2Num > 0:
