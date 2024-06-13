@@ -28,7 +28,7 @@ Comma to go to previous wave.\
 C gives regular powerup.
 
 ## Technical Info
-The remake has been made in about five weeks. In a team of three, Timothy Marriott, Sebastion Strano and Dane Ebey. The engine uses pygame as the backend and a custom written framework for asset and object management.
+The remake has been made in about five weeks. In a team of three, Timothy Marriott, Sebastian Strano and Dane Ebey. The engine uses pygame as the backend and a custom written framework for asset and object management.
 
 ### Build Instructions
 In the root directory of the project run.
